@@ -1,0 +1,26 @@
+{
+  "name": "tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json",
+    "start": "ts-node src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "fastify": "^5.8.5",
+    "knex": "^3.2.10",
+    "mysql2": "^3.22.5",
+    "typebox": "^1.2.10"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}

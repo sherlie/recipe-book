@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    // output settings
+    "sourceMap": true,
+    "rootDir": "src",
+    "outDir": "dist",
+
+    // environment settings
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "lib": ["ES2023"],
+    "target": "esnext",
+    "types": ["@types/node"],
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+
+    // strictness options
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "verbatimModuleSyntax": true,
+
+    // recommended options
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*.ts", "./tests/**/*.ts"]
+}
