@@ -6,6 +6,8 @@ services:
       MYSQL_DATABASE: db-recipe-book
       MYSQL_USER: recipe-book
       MYSQL_PASSWORD: recipe-book-pwd
+    ports:
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:

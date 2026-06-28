@@ -1,0 +1,22 @@
+{
+  "name": "recipe-book",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/sherlie/recipe-book#readme",
+  "bugs": {
+    "url": "https://github.com/sherlie/recipe-book/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sherlie/recipe-book.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "docker-compose -f docker-compose.dev.yml up --build",
+    "stop": "docker-compose -f docker-compose.dev.yml down"
+  }
+}
