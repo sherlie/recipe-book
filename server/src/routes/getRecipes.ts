@@ -1,7 +1,7 @@
 import type { RouteOptions } from "fastify";
 import { Page, Recipe } from "../types/recipes.ts";
-import { PAGE_SIZE, recipes } from "./mockData.ts";
 import Type from "typebox";
+import { connection } from "../db.ts";
 
 export const getRecipes: RouteOptions = {
   method: 'GET',
@@ -15,16 +15,23 @@ export const getRecipes: RouteOptions = {
     },
   },
   handler: async (request, reply) => {
-    const { start } = request.query as { start: number };
+    /* todo - params */
+    const page = 1;
+    const pageSize = 5;
 
-    const end = start + PAGE_SIZE;
-    const data = recipes.slice(start, end);
+    const rows = await connection
+      .select('id', 'name')
+      .from('recipes')
+      .orderBy('name')
+      .limit(pageSize + 1)
+      .offset((page - 1) * pageSize);
 
-    reply.status(200);
+    const hasMore = rows.length > pageSize;
+    const recipes = rows.slice(0, pageSize);
 
     return {
-      data,
-      hasMore: end < recipes.length,
+      recipes,
+      hasMore,
     };
   },
 };

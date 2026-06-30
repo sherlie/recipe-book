@@ -1,6 +1,6 @@
 import type { RouteOptions } from "fastify";
-import { lastId, recipes } from "./mockData.ts";
 import { CreateRecipe, Recipe, UpdateRecipe } from "../types/recipes.ts";
+import { connection } from "../db.ts";
 
 type PostRecipeRoute = {
   Body: UpdateRecipe; 
@@ -16,10 +16,16 @@ export const postRecipes: RouteOptions = {
     },
   },
   handler: async (request, reply) => {
-    const { name, method, ingredients = [] } = request.body as PostRecipeRoute["Body"];
+    const { name, method } = request.body as PostRecipeRoute["Body"];
 
-    const recipe = { name, method, ingredients, id: `${(recipes[recipes.length-1]?.id ?? 0 + 1)}`};
-    recipes.push(recipe);
+    const recipe = {
+      id: crypto.randomUUID(),
+      name: name,
+      method: method,
+    };
+
+    await connection('recipes').insert(recipe);
+
     reply.status(200).send(recipe);
   }
 };

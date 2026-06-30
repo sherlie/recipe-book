@@ -1,5 +1,5 @@
 import type { RouteOptions } from "fastify";
-import { recipes } from "./mockData.ts";
+import { connection } from "../db.ts";
 
 export const getRecipesId: RouteOptions = {
   method: 'GET',
@@ -7,7 +7,12 @@ export const getRecipesId: RouteOptions = {
   handler: async (request, reply) => {
     const { id } = request.params as { id: string };
 
-    const recipe = recipes.find(a => a.id === id);
+    /* todo -- not a full recipe! */
+    const recipe = await connection
+      .select('id', 'name', 'method')
+      .from('recipes')
+      .where('id', id)
+      .first();
 
     if (!recipe) {
         return reply.code(404).send({ success: false, message: 'Recipe not found' });

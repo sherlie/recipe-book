@@ -1,8 +1,8 @@
 import type { RouteOptions } from "fastify";
-import { recipes } from "./mockData.ts";
 import Type from "typebox";
 import { UpdateRecipe } from "../types/recipes.ts";
 import { RecipeReply } from "../types/replies.ts";
+import { connection } from "../db.ts";
 
 type PutRecipeRoute = {
   Params: {
@@ -27,7 +27,11 @@ export const putRecipes: RouteOptions = {
   const { id } = request.params as PutRecipeRoute["Params"];
   const { name, method } = request.body as PutRecipeRoute["Body"];
 
-    const recipe = recipes.find(a => a.id === id)
+    const recipe = await connection
+      .select('id')
+      .from('recipes')
+      .where('id', id)
+      .first();
 
     if (!recipe) {
       reply.code(404);
@@ -35,11 +39,12 @@ export const putRecipes: RouteOptions = {
       return { success: false, message: 'Recipe not found' };
     }
 
-    const editedRecipe = {
-      ...recipe,
-      name,
-      method,
-    }
+    const editedRecipe = await connection('recipes')
+      .where({ id })
+      .update({
+        name,
+        method,
+      });
 
     return { success: true, data: editedRecipe };
   }

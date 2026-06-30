@@ -1,8 +1,8 @@
 import type { RouteOptions } from "fastify";
-import { recipes } from "./mockData.ts";
 import Type from "typebox";
 import { UpdateRecipe } from "../types/recipes.ts";
 import { RecipeReply } from "../types/replies.ts";
+import { connection } from "../db.ts";
 
 export const deleteRecipes: RouteOptions = {
   method: 'DELETE',
@@ -19,14 +19,21 @@ export const deleteRecipes: RouteOptions = {
   handler: async (request, reply) => {
     const { id } = request.params as { id: string };
 
-    const recipe = recipes.find(a => a.id === id)
+    const recipe = await connection
+      .select('id')
+      .from('recipes')
+      .where('id', id)
+      .first();
 
     if (!recipe) {
       reply.code(404);
-      
+
       return { success: false, message: 'Recipe not found' };
     }
-    recipes.splice(recipes.indexOf(recipe), 1);
+
+    await connection('recipes')
+      .where({ id })
+      .delete();
 
     return { success: true, data: recipe };
   }
