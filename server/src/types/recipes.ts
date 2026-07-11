@@ -25,8 +25,3 @@ export type CreateRecipe = Static<typeof CreateRecipe>
 
 export const UpdateRecipe = Type.Optional(CreateRecipe);
 export type UpdateRecipe = Static<typeof UpdateRecipe>
-
-export const Page = <T extends TSchema>(dataType: T) => Type.Object({
-  data: Type.Array(dataType),
-  hasMore: Type.Boolean(),
-})

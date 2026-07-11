@@ -1,14 +1,14 @@
 import type { FastifyInstance } from "fastify";
 import { getRecipes } from "./getRecipes.ts";
-import { getRecipesId } from "./getRecipesId.ts";
-import { putRecipes } from "./putRecipes.ts";
-import { postRecipes } from "./postRecipes.ts";
-import { deleteRecipes } from "./deleteRecipes.ts";
+import { getRecipe } from "./getRecipe.ts";
+import { putRecipe } from "./putRecipe.ts";
+import { postRecipe } from "./postRecipe.ts";
+import { deleteRecipe } from "./deleteRecipe.ts";
 
 export async function routes(fastify: FastifyInstance) {
   fastify.route(getRecipes);
-  fastify.route(getRecipesId);
-  fastify.route(putRecipes);
-  fastify.route(postRecipes);
-  fastify.route(deleteRecipes);
+  fastify.route(getRecipe);
+  fastify.route(putRecipe);
+  fastify.route(postRecipe);
+  fastify.route(deleteRecipe);
 }

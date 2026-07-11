@@ -2,9 +2,9 @@ import type { RouteOptions } from "fastify";
 import Type from "typebox";
 import { UpdateRecipe } from "../types/recipes.ts";
 import { RecipeReply } from "../types/replies.ts";
-import { connection } from "../db.ts";
+import { getRecipe, deleteRecipe as deleteRecipeModel } from "../model/recipesModel.ts";
 
-export const deleteRecipes: RouteOptions = {
+export const deleteRecipe: RouteOptions = {
   method: 'DELETE',
   url: '/recipes/:id',
   schema: {
@@ -19,11 +19,7 @@ export const deleteRecipes: RouteOptions = {
   handler: async (request, reply) => {
     const { id } = request.params as { id: string };
 
-    const recipe = await connection
-      .select('id')
-      .from('recipes')
-      .where('id', id)
-      .first();
+    const recipe = await getRecipe(id);
 
     if (!recipe) {
       reply.code(404);
@@ -31,10 +27,8 @@ export const deleteRecipes: RouteOptions = {
       return { success: false, message: 'Recipe not found' };
     }
 
-    await connection('recipes')
-      .where({ id })
-      .delete();
+    deleteRecipeModel(id);
 
-    return { success: true, data: recipe };
+    return { success: true };
   }
 };

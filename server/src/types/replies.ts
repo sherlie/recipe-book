@@ -18,3 +18,6 @@ export const Page = <T extends TSchema>(dataType: T) => Type.Object({
   data: Type.Array(dataType),
   hasMore: Type.Boolean(),
 })
+
+export const RecipePage = Page(Recipe);
+export type RecipePage =  Static<typeof RecipePage>;

@@ -1,6 +1,6 @@
 import { default as knex } from 'knex';
 
-export const connection = knex({
+export const database = knex({
     client: 'mysql2',
     connection: {
         host: 'mysql',
@@ -15,5 +15,5 @@ export const connection = knex({
 });
 
 export async function initDatabase() {
-  await connection.migrate.latest();
+  await database.migrate.latest();
 }

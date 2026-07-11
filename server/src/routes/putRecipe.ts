@@ -2,7 +2,7 @@ import type { RouteOptions } from "fastify";
 import Type from "typebox";
 import { UpdateRecipe } from "../types/recipes.ts";
 import { RecipeReply } from "../types/replies.ts";
-import { connection } from "../db.ts";
+import { getRecipe, updateRecipe } from "../model/recipesModel.ts";
 
 type PutRecipeRoute = {
   Params: {
@@ -11,7 +11,7 @@ type PutRecipeRoute = {
   Body: UpdateRecipe; 
 };
 
-export const putRecipes: RouteOptions = {
+export const putRecipe: RouteOptions = {
   method: 'PUT',
   url: '/recipes/:id',
   schema: {
@@ -25,13 +25,9 @@ export const putRecipes: RouteOptions = {
   },
   handler: async (request, reply) => {
   const { id } = request.params as PutRecipeRoute["Params"];
-  const { name, method } = request.body as PutRecipeRoute["Body"];
+  const { name, method, ingredients } = request.body as PutRecipeRoute["Body"];
 
-    const recipe = await connection
-      .select('id')
-      .from('recipes')
-      .where('id', id)
-      .first();
+    const recipe = await getRecipe(id);
 
     if (!recipe) {
       reply.code(404);
@@ -39,12 +35,7 @@ export const putRecipes: RouteOptions = {
       return { success: false, message: 'Recipe not found' };
     }
 
-    const editedRecipe = await connection('recipes')
-      .where({ id })
-      .update({
-        name,
-        method,
-      });
+    const editedRecipe = updateRecipe(id, { name, method, ingredients })
 
     return { success: true, data: editedRecipe };
   }
