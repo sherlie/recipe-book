@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
 import type { CreateRecipe, Recipe, UpdateRecipe } from "../types/recipes.ts";
 import type { RecipePage } from "../types/replies.ts";
@@ -11,13 +12,13 @@ export async function getRecipe(id: string): Promise<Recipe> {
     return recipe;
 }
 
-export async function getRecipes(pageNumber: number, pageSize: number): Promise<RecipePage> {
+export async function getRecipes(offset: number, pageSize: number): Promise<RecipePage> {
     const rows = await database
       .select('id', 'name')
       .from('recipes')
       .orderBy('name')
       .limit(pageSize + 1)
-      .offset((pageNumber - 1) * pageSize);
+      .offset(offset);
 
     const hasMore = rows.length > pageSize;
     const recipes = rows.slice(0, pageSize);
@@ -36,7 +37,7 @@ export async function deleteRecipe(id: string) {
 
 export async function createRecipe({ name, method }: CreateRecipe) {
     const createdRecipe = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       name,
       method,
     };

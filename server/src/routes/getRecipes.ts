@@ -16,10 +16,10 @@ export const getRecipes: RouteOptions = {
   },
   handler: async (request, reply) => {
     /* todo - params */
-    const pageNumber = 1;
+    const offset = 0;
     const pageSize = 5;
 
-    const page = await getRecipesModel(pageNumber, pageSize);
+    const page = await getRecipesModel(offset, pageSize);
 
     return page;
   },
