@@ -29,12 +29,6 @@ export async function getRecipes(offset: number, pageSize: number): Promise<Reci
     };
 }
 
-export async function deleteRecipe(id: string) {
-    await database('recipes')
-      .where({ id })
-      .delete();
-}
-
 export async function createRecipe({ name, method }: CreateRecipe) {
     const createdRecipe = {
       id: uuidv4(),
@@ -57,4 +51,10 @@ export async function updateRecipe(id: string, { name, method }: UpdateRecipe) {
         method,
       });
     return editedRecipe;
+}
+
+export async function deleteRecipe(id: string) {
+    await database('recipes')
+      .where({ id })
+      .delete();
 }

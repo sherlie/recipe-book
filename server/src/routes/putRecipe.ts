@@ -25,7 +25,7 @@ export const putRecipe: RouteOptions = {
   },
   handler: async (request, reply) => {
   const { id } = request.params as PutRecipeRoute["Params"];
-  const { name, method, ingredients } = request.body as PutRecipeRoute["Body"];
+  const { name, method } = request.body as PutRecipeRoute["Body"];
 
     const recipe = await getRecipe(id);
 
@@ -35,7 +35,7 @@ export const putRecipe: RouteOptions = {
       return { success: false, message: 'Recipe not found' };
     }
 
-    const editedRecipe = updateRecipe(id, { name, method, ingredients })
+    const editedRecipe = updateRecipe(id, { name, method })
 
     return { success: true, data: editedRecipe };
   }
