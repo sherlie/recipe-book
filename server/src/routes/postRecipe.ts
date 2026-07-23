@@ -19,7 +19,7 @@ export const postRecipe: RouteOptions = {
     const { name, method } = request.body as PostRecipeRoute["Body"];
 
     /* todo - handle ingredients & tags */
-    const recipe = await createRecipe({ name, method, ingredients: [] })
+    const recipe = await createRecipe({ name, method })
 
     reply.status(200).send(recipe);
   }

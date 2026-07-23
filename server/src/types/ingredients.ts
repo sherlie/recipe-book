@@ -19,3 +19,11 @@ export const UpdateIngredient = Type.Object({
   name: Type.Optional(Type.String({ minLength: 2, maxLength: 40 })),
 })
 export type UpdateIngredient = Static<typeof UpdateIngredient>
+
+export const FullIngredient = Type.Object({
+  amount: Type.Number({ exclusiveMinimum: 0}),
+  unit: Type.Optional(Type.String()),
+  name: Type.String({ minLength: 2, maxLength: 40 }),
+})
+export type FullIngredient = Static<typeof FullIngredient>
+

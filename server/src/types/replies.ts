@@ -21,3 +21,6 @@ export const Page = <T extends TSchema>(dataType: T) => Type.Object({
 
 export const RecipePage = Page(Recipe);
 export type RecipePage =  Static<typeof RecipePage>;
+
+export const EmptyReply = Reply(Type.Null());
+export type EmptyReply =  Static<typeof EmptyReply>;

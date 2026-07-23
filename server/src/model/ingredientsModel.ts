@@ -1,29 +1,28 @@
 import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
-import type { CreateIngredient, Ingredient, UpdateIngredient } from '../types/ingredients.ts';
+import type { CreateIngredient, FullIngredient, UpdateIngredient } from '../types/ingredients.ts';
 
-export async function getIngredient(id: string): Promise<Ingredient> {
+export async function getIngredient(id: string): Promise<FullIngredient> {
     const ingredient = await database
-        .select('id')
+        .select('id', 'name', 'unit', 'amount')
         .from('ingredients')
         .where('id', id)
         .first();
     return ingredient;
 }
 
-export async function getIngredients(componentId: string): Promise<Ingredient> {
-    const ingredient = await database
+export async function getIngredients(componentId: string): Promise<FullIngredient[]> {
+    const ingredients = await database
         .select('id', 'name', 'unit', 'amount')
         .from('ingredients')
-        .where('componentId', componentId)
-        .first();
-    return ingredient;
+        .where('component_id', componentId)
+    return ingredients;
 }
 
 export async function createIngredient({ name, unit, amount, componentId }: CreateIngredient) {
     const createdIngredient = {
       id: uuidv4(),
-      componentId,
+      component_id: componentId,
       name,
       unit,
       amount,
@@ -38,7 +37,7 @@ export async function updateIngredient(id: string, { componentId, name, unit, am
     const editedIngredient = await database('ingredients')
       .where({ id })
       .update({
-        componentId,
+        component_id: componentId,
         name,
         unit,
         amount,

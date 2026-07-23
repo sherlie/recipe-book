@@ -1,7 +1,7 @@
 import type { RouteOptions } from "fastify";
 import Type from "typebox";
 import { UpdateRecipe } from "../types/recipes.ts";
-import { RecipeReply } from "../types/replies.ts";
+import { EmptyReply, RecipeReply } from "../types/replies.ts";
 import { getRecipe, deleteRecipe as deleteRecipeModel } from "../model/recipesModel.ts";
 
 export const deleteRecipe: RouteOptions = {
@@ -11,9 +11,8 @@ export const deleteRecipe: RouteOptions = {
       params: Type.Object({
         id: Type.String(),
       }),
-      body: UpdateRecipe,
       response: {
-        200: RecipeReply,
+        200: EmptyReply,
     },
   },
   handler: async (request, reply) => {
@@ -29,6 +28,6 @@ export const deleteRecipe: RouteOptions = {
 
     deleteRecipeModel(id);
 
-    return { success: true };
+    return { success: true, data: null };
   }
 };
