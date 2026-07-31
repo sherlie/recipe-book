@@ -14,6 +14,6 @@ export const getRecipe: RouteOptions = {
         return reply.code(404).send({ success: false, message: 'Recipe not found' });
     }
 
-    return { success: true, data: recipe};
+    return { success: true, data: recipe };
   },
 };

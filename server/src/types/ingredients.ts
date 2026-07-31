@@ -21,9 +21,15 @@ export const UpdateIngredient = Type.Object({
 export type UpdateIngredient = Static<typeof UpdateIngredient>
 
 export const FullIngredient = Type.Object({
+  id: Type.String(),
   amount: Type.Number({ exclusiveMinimum: 0}),
   unit: Type.Optional(Type.String()),
   name: Type.String({ minLength: 2, maxLength: 40 }),
 })
 export type FullIngredient = Static<typeof FullIngredient>
 
+export const GroupedIngredients = Type.Record(
+  Type.String(),
+  Type.Array(FullIngredient),
+);
+export type GroupedIngredients = Static<typeof GroupedIngredients>

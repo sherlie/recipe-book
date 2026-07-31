@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
-import type { CreateIngredient, FullIngredient, UpdateIngredient } from '../types/ingredients.ts';
+import type { CreateIngredient, FullIngredient, GroupedIngredients, UpdateIngredient } from '../types/ingredients.ts';
 
 export async function getIngredient(id: string): Promise<FullIngredient> {
     const ingredient = await database
@@ -11,12 +11,36 @@ export async function getIngredient(id: string): Promise<FullIngredient> {
     return ingredient;
 }
 
-export async function getIngredients(componentId: string): Promise<FullIngredient[]> {
+export async function getIngredientsByComponent(componentId: string): Promise<FullIngredient[]> {
     const ingredients = await database
         .select('id', 'name', 'unit', 'amount')
         .from('ingredients')
         .where('component_id', componentId)
     return ingredients;
+}
+
+export async function getIngredientsByComponents(componentIds: string[]): Promise<GroupedIngredients> {
+    if (componentIds.length === 0) {
+        return {};
+    }
+
+    const ingredients = await database
+        .select('id', 'name', 'unit', 'amount', 'component_id')
+        .from('ingredients')
+        .where('component_id', 'in', componentIds);
+
+    const groupedIngredients: GroupedIngredients = {};
+ 
+    for (const ingredient of ingredients) {
+        (groupedIngredients[ingredient.component_id] ??= []).push({
+            id: ingredient.id,
+            name: ingredient.name,
+            unit: ingredient.unit,
+            amount: ingredient.amount,
+        });
+    }
+
+    return groupedIngredients;
 }
 
 export async function createIngredient({ name, unit, amount, componentId }: CreateIngredient) {

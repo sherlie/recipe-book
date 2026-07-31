@@ -1,20 +1,28 @@
 import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
-import type { CreateRecipe, Recipe, UpdateRecipe } from "../types/recipes.ts";
+import type { CreateRecipe, FullRecipe, Recipe, UpdateRecipe } from "../types/recipes.ts";
 import type { RecipePage } from "../types/replies.ts";
+import { getComponents } from './componentsModel.ts';
 
-export async function getRecipe(id: string): Promise<Recipe> {
+export async function getRecipe(id: string): Promise<FullRecipe> {
     const recipe = await database
-        .select('id')
+        .select('id', 'name', 'method')
         .from('recipes')
         .where('id', id)
         .first();
-    return recipe;
+
+    const components = await getComponents(recipe.id);
+
+    return {
+      name: recipe.name,
+      method: recipe.method,
+      components: components,
+    };
 }
 
 export async function getRecipes(offset: number, pageSize: number): Promise<RecipePage> {
     const rows = await database
-      .select('id', 'name')
+      .select('id', 'name', 'method')
       .from('recipes')
       .orderBy('name')
       .limit(pageSize + 1)

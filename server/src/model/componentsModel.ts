@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
-import type { CreateComponent, Component, UpdateComponent } from '../types/components.ts';
+import type { CreateComponent, Component, UpdateComponent, FullComponent } from '../types/components.ts';
+import { getIngredientsByComponents } from './ingredientsModel.ts';
 
 export async function getComponent(id: string): Promise<Component> {
     const component = await database
@@ -11,15 +12,27 @@ export async function getComponent(id: string): Promise<Component> {
     return component;
 }
 
-export async function getComponents(recipeId: string): Promise<Component[]> {
+export async function getComponents(recipeId: string): Promise<FullComponent[]> {
     const components = await database
-        .select('id', 'name', 'unit', 'amount')
+        .select('id', 'name')
         .from('components')
-        .where('recipe_id', recipeId)
-    return components;
+        .where('recipe_id', recipeId);
+
+    if (components.length === 0) {
+        return [];
+    }
+
+    const ingredientsByComponent = await getIngredientsByComponents(
+        components.map(component => component.id),
+    );
+
+    return components.map(component => ({
+        ...component,
+        ingredients: ingredientsByComponent[component.id] ?? [],
+    }));
 }
 
-export async function createComponent({ name, recipeId, }: CreateComponent) {
+export async function createComponent({ name, recipeId }: CreateComponent) {
     const createdComponent = {
       id: uuidv4(),
       recipe_id: recipeId,

@@ -19,7 +19,7 @@ export const UpdateComponent = Type.Object({
 export type UpdateComponent = Static<typeof UpdateComponent>
 
 export const FullComponent = Type.Object({
-  name: Type.Optional(Type.String({ minLength: 2, maxLength: 40 })),
+  Component,
   ingredients: Type.Array(FullIngredient),
 })
 export type FullComponent = Static<typeof FullComponent>
