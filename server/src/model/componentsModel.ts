@@ -44,6 +44,18 @@ export async function createComponent({ name, recipeId }: CreateComponent) {
     return createdComponent;
 }
 
+export async function createComponents(components: CreateComponent[]) {
+    const createdComponents = components.map(component => ({
+        id: uuidv4(),
+        recipe_id: component.recipeId,
+        name: component.name,
+    }));
+
+    await database('components').insert(createdComponents);
+
+    return createdComponents;
+}
+
 export async function updateComponent(id: string, { recipeId, name }: UpdateComponent) {
     const editedComponent = await database('components')
       .where({ id })

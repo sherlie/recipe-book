@@ -1,5 +1,5 @@
 import { Type, type Static, type TSchema } from "typebox";
-import { Recipe } from "./recipes.ts";
+import { LightRecipe, Recipe } from "./recipes.ts";
 
 export const SuccessReply = <T extends TSchema>(dataType: T) => Type.Object({
   success: Type.Literal(true),
@@ -19,7 +19,7 @@ export const Page = <T extends TSchema>(dataType: T) => Type.Object({
   hasMore: Type.Boolean(),
 })
 
-export const RecipePage = Page(Recipe);
+export const RecipePage = Page(LightRecipe);
 export type RecipePage =  Static<typeof RecipePage>;
 
 export const EmptyReply = Reply(Type.Null());

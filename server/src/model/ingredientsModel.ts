@@ -57,6 +57,20 @@ export async function createIngredient({ name, unit, amount, componentId }: Crea
     return createdIngredient;
 }
 
+export async function createIngredients(ingredients: CreateIngredient[]) {
+    const createdIngredients = ingredients.map(ingredient => ({
+      id: uuidv4(),
+      component_id: ingredient.componentId,
+      nam: ingredient.name,
+      unit: ingredient.unit,
+      amount: ingredient.amount,
+    }));
+
+    await database('ingredients').insert(createdIngredients);
+
+    return createdIngredients;
+}
+
 export async function updateIngredient(id: string, { componentId, name, unit, amount }: UpdateIngredient) {
     const editedIngredient = await database('ingredients')
       .where({ id })

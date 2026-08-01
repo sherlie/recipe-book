@@ -1,4 +1,4 @@
-import { type Static, Type } from 'typebox'
+import { type Static, Type, Composite } from 'typebox'
 import { FullIngredient } from './ingredients.ts'
 
 export const Component = Type.Object({
@@ -18,8 +18,7 @@ export const UpdateComponent = Type.Object({
 })
 export type UpdateComponent = Static<typeof UpdateComponent>
 
-export const FullComponent = Type.Object({
-  Component,
+export const FullComponent = Composite(Component, Type.Object({
   ingredients: Type.Array(FullIngredient),
-})
+}));
 export type FullComponent = Static<typeof FullComponent>
