@@ -1,5 +1,5 @@
 import { type Static, Type } from 'typebox'
-import { FullComponent } from './components.ts'
+import { CreateComponent, FullComponent } from './components.ts'
 
 export const Recipe = Type.Object({
   id: Type.String(),
@@ -13,14 +13,19 @@ export type LightRecipe = Static<typeof LightRecipe>
 
 export const FullRecipe = Type.Object({
   id: Type.String(),
-  name: Type.Optional(Type.String()),
+  name: Type.String(),
   method: Type.String(),
   components: Type.Array(FullComponent),
   tags: Type.Optional(Type.Array(Type.String())),
 })
 export type FullRecipe = Static<typeof FullRecipe>
 
-export const CreateRecipe = Type.Omit(Recipe, ["id"])
+export const CreateRecipe = Type.Partial(Type.Object({
+  name: Type.String(),
+  method: Type.String(),
+  components: Type.Array(CreateComponent),
+  tags: Type.Array(Type.String()),
+}));
 export type CreateRecipe = Static<typeof CreateRecipe>
 
 export const UpdateRecipe = Type.Optional(CreateRecipe);

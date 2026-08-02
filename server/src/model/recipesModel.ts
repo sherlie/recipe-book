@@ -1,9 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
-import type { CreateRecipe, FullRecipe, Recipe, UpdateRecipe } from "../types/recipes.ts";
+import type { CreateRecipe, FullRecipe, UpdateRecipe } from "../types/recipes.ts";
 import type { RecipePage } from "../types/replies.ts";
-import { createComponent, getComponents } from './componentsModel.ts';
-import { createIngredient } from './ingredientsModel.ts';
+import { createComponents, getComponents } from './componentsModel.ts';
 
 export async function getRecipe(id: string): Promise<FullRecipe> {
     const recipe = await database
@@ -39,18 +38,19 @@ export async function getRecipes(offset: number, pageSize: number): Promise<Reci
     };
 }
 
-export async function createRecipe({ name, method }: CreateRecipe) {
+export async function createRecipe({ name, method, components }: CreateRecipe) {
     const createdRecipe = {
       id: uuidv4(),
       name,
       method,
     };
     await database.transaction(async (trx) => {
-        /* todo - handle ingredients & tags */
+        /* todo - handle tags */
         await trx('recipes').insert(createdRecipe);
-        
+        if (components) {
+          await createComponents(createdRecipe.id, components, trx);
         }
-    );
+    });
     
     return createdRecipe;
 }

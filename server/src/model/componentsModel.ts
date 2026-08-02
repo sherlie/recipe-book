@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
-import type { CreateComponent, Component, UpdateComponent, FullComponent } from '../types/components.ts';
-import { getIngredientsByComponents } from './ingredientsModel.ts';
+import type { CreateComponent, Component, UpdateComponent, FullComponent, DbComponent } from '../types/components.ts';
+import { createIngredients, getIngredientsByComponents } from './ingredientsModel.ts';
+import type { Knex } from 'knex';
+import type { CreateIngredient } from '../types/ingredients.ts';
 
 export async function getComponent(id: string): Promise<Component> {
     const component = await database
@@ -32,7 +34,7 @@ export async function getComponents(recipeId: string): Promise<FullComponent[]> 
     }));
 }
 
-export async function createComponent({ name, recipeId }: CreateComponent) {
+export async function createComponent(recipeId: string, { name }: CreateComponent) {
     const createdComponent = {
       id: uuidv4(),
       recipe_id: recipeId,
@@ -44,14 +46,27 @@ export async function createComponent({ name, recipeId }: CreateComponent) {
     return createdComponent;
 }
 
-export async function createComponents(components: CreateComponent[]) {
-    const createdComponents = components.map(component => ({
-        id: uuidv4(),
-        recipe_id: component.recipeId,
-        name: component.name,
-    }));
+export async function createComponents(recipeId: string, components: CreateComponent[], conn?: Knex) {
+    const createdComponents: DbComponent[] = [];
+    const ingredients: Record<string, CreateIngredient[]> = {};
+    for (const component of components) {
+        const componentId = uuidv4();
+        createdComponents.push({
+            id: componentId,
+            recipe_id: recipeId,
+            name: component.name,
+        });
+        
+        ingredients[componentId] = component.ingredients.map((ingredient) => ({
+            name: ingredient.name,
+            amount: ingredient.amount,
+            unit: ingredient.unit,
+        }));
+    }
 
-    await database('components').insert(createdComponents);
+    const connection = conn ?? database;
+    await connection('components').insert(createdComponents);
+    await createIngredients(ingredients, connection)
 
     return createdComponents;
 }

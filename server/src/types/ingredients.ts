@@ -9,7 +9,7 @@ export const Ingredient = Type.Object({
 })
 export type Ingredient = Static<typeof Ingredient>
 
-export const CreateIngredient = Type.Omit(Ingredient, ["id"])
+export const CreateIngredient = Type.Omit(Ingredient, ["id", "componentId"])
 export type CreateIngredient = Static<typeof CreateIngredient>
 
 export const UpdateIngredient = Type.Object({
