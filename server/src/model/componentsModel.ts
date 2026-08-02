@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
 import type { CreateComponent, Component, UpdateComponent, FullComponent, DbComponent } from '../types/components.ts';
-import { createIngredients, getIngredientsByComponents } from './ingredientsModel.ts';
+import { createIngredients, deleteIngredients, getIngredientsByComponents } from './ingredientsModel.ts';
 import type { Knex } from 'knex';
 import type { CreateIngredient } from '../types/ingredients.ts';
 
@@ -85,4 +85,22 @@ export async function deleteComponent(id: string) {
     await database('components')
       .where({ id })
       .delete();
+}
+
+export async function deleteComponents(recipeId: string, conn?: Knex) {
+    const connection = conn ?? database;
+
+    const componentsIds = (await connection
+        .select('id')
+        .from('components')
+        .where('recipe_id', recipeId))
+        .map((row) => row.id);
+    
+    console.log(recipeId, componentsIds);
+
+    await connection('components')
+      .where('recipe_id', recipeId)
+      .delete();
+
+    deleteIngredients(componentsIds, connection);
 }

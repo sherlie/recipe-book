@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
 import type { CreateRecipe, FullRecipe, UpdateRecipe } from "../types/recipes.ts";
 import type { RecipePage } from "../types/replies.ts";
-import { createComponents, getComponents } from './componentsModel.ts';
+import { createComponents, deleteComponents, getComponents } from './componentsModel.ts';
 
 export async function getRecipe(id: string): Promise<FullRecipe> {
     const recipe = await database
@@ -66,7 +66,11 @@ export async function updateRecipe(id: string, { name, method }: UpdateRecipe) {
 }
 
 export async function deleteRecipe(id: string) {
-    await database('recipes')
-      .where({ id })
-      .delete();
+    await database.transaction(async (trx) => {
+        await trx('recipes')
+          .where({ id })
+          .delete();
+        
+        await deleteComponents(id, trx);
+    });
 }

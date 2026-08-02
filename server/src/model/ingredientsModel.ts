@@ -107,3 +107,10 @@ export async function updateIngredient(
 export async function deleteIngredient(id: string) {
   await database("ingredients").where({ id }).delete();
 }
+
+export async function deleteIngredients(componentsIds: string[], conn?: Knex) {
+  const connection = conn ?? database;
+  await connection("ingredients")
+    .whereIn('component_id', componentsIds)
+    .delete();
+}
