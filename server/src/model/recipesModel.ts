@@ -2,9 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
 import type { CreateRecipe, FullRecipe, UpdateRecipe } from "../types/recipes.ts";
 import type { RecipePage } from "../types/replies.ts";
-import { createComponents, deleteComponents, getComponents } from './componentsModel.ts';
+import { createComponents, deleteComponents, getComponents, updateComponents } from './componentsModel.ts';
+import type { Knex } from 'knex';
 
-export async function getRecipe(id: string): Promise<FullRecipe> {
+export async function getRecipe(id: string, conn?: Knex): Promise<FullRecipe> {
     const recipe = await database
         .select('id', 'name', 'method')
         .from('recipes')
@@ -55,14 +56,21 @@ export async function createRecipe({ name, method, components }: CreateRecipe) {
     return createdRecipe;
 }
 
-export async function updateRecipe(id: string, { name, method }: UpdateRecipe) {
-    const editedRecipe = await database('recipes')
-      .where({ id })
-      .update({
-        name,
-        method,
-      });
-    return editedRecipe;
+export async function updateRecipe(id: string, { name, method, components }: UpdateRecipe) {
+  const updatedRecipe = await database.transaction(async (trx) => {
+    await trx('recipes')
+    .where({ id })
+    .update({
+      name,
+      method,
+    });
+      if (components) {
+        await updateComponents(components, trx);
+      }
+
+    return getRecipe(id, trx);
+  });
+  return updatedRecipe;
 }
 
 export async function deleteRecipe(id: string) {

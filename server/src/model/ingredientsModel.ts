@@ -4,6 +4,7 @@ import type {
   CreateIngredient,
   FullIngredient,
   GroupedIngredients,
+  PatchIngredients,
   UpdateIngredient,
 } from "../types/ingredients.ts";
 import type { Knex } from "knex";
@@ -106,6 +107,57 @@ export async function updateIngredient(
 
 export async function deleteIngredient(id: string) {
   await database("ingredients").where({ id }).delete();
+}
+
+export async function updateIngredients(
+    patches: PatchIngredients[],
+    conn?: Knex,
+): Promise<void> {
+  if (patches.length === 0) {
+    return;
+  }
+
+  const connection = conn ?? database;
+  for (const patch of patches) {
+    switch (patch.op) {
+      case "add":
+        const ingredients = patch.ingredients.map(ingredient => ({
+          id: uuidv4(),
+          component_id: patch.componentId,
+          name: ingredient.name,
+          unit: ingredient.unit,
+          amount: ingredient.amount,
+        }));
+
+        if (ingredients.length > 0) {
+          await connection("ingredients").insert(ingredients);
+        }
+        break;
+
+      case "update":
+        for (const ingredient of patch.ingredients) {
+          const { id, componentId, ...updates } = ingredient;
+
+          await connection("ingredients")
+            .where("id", id)
+            .update({
+              ...(componentId !== undefined && {
+                component_id: componentId,
+              }),
+              ...updates,
+            });
+        }
+        break;
+
+      case "remove":
+        if (patch.ingredientsIds.length > 0) {
+          await connection("ingredients")
+            .whereIn("id", patch.ingredientsIds)
+            .delete();
+        }
+        break;
+    }
+  }
 }
 
 export async function deleteIngredients(componentsIds: string[], conn?: Knex) {

@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { database } from "../db.ts";
-import type { CreateComponent, Component, UpdateComponent, FullComponent, DbComponent } from '../types/components.ts';
-import { createIngredients, deleteIngredients, getIngredientsByComponents } from './ingredientsModel.ts';
+import type { CreateComponent, Component, UpdateComponent, FullComponent, DbComponent, PatchComponents } from '../types/components.ts';
+import { createIngredients, deleteIngredients, getIngredientsByComponents, updateIngredients } from './ingredientsModel.ts';
 import type { Knex } from 'knex';
-import type { CreateIngredient } from '../types/ingredients.ts';
+import type { CreateIngredient, FullUpdateIngredient } from '../types/ingredients.ts';
 
 export async function getComponent(id: string): Promise<Component> {
     const component = await database
@@ -79,6 +79,68 @@ export async function updateComponent(id: string, { recipeId, name }: UpdateComp
         name,
       });
     return editedComponent;
+}
+
+export async function updateComponents(
+    patches: PatchComponents[],
+    conn?: Knex,
+): Promise<void> {
+  if (patches.length === 0) {
+    return;
+  }
+
+  const connection = conn ?? database;
+
+  const ingredientsToAdd: Record<string, CreateIngredient[]> = {};
+  const componentsToAdd: DbComponent[] = [];
+
+  for (const patch of patches) {
+    switch (patch.op) {
+      case "add":
+        for (const component of patch.components) {
+            const componentId = uuidv4();
+            componentsToAdd.push({
+                id: componentId,
+                recipe_id: patch.recipeId,
+                name: component.name,
+            });
+            
+            ingredientsToAdd[componentId] = component.ingredients.map((ingredient) => ({
+                name: ingredient.name,
+                amount: ingredient.amount,
+                unit: ingredient.unit,
+            }));
+        }
+        await connection('components').insert(componentsToAdd);
+        await createIngredients(ingredientsToAdd, connection)
+        break;
+
+      case "update":
+        for (const component of patch.components) {
+          const { id, recipeId, name } = component;
+
+          await updateIngredients(component.patchIngredients, connection);
+
+          await connection("components")
+            .where("id", id)
+            .update({
+              ...(recipeId !== undefined && {
+                component_id: recipeId,
+              }),
+              name,
+            });
+        }
+        break;
+
+      case "remove":
+        if (patch.componentsIds.length > 0) {
+          await connection("ingredients")
+            .whereIn("id", patch.componentsIds)
+            .delete();
+        }
+        break;
+    }
+  }
 }
 
 export async function deleteComponent(id: string) {
