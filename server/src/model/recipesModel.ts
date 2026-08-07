@@ -22,20 +22,26 @@ export async function getRecipe(id: string, conn?: Knex): Promise<FullRecipe> {
     };
 }
 
-export async function getRecipes(offset: number, pageSize: number): Promise<RecipePage> {
-    const rows = await database
+export async function getRecipes(pageSize: number, cursor?: string): Promise<RecipePage> {
+    const query = database
       .select('id', 'name')
       .from('recipes')
-      .orderBy('name')
-      .limit(pageSize + 1)
-      .offset(offset);
+      .orderBy('id')
+      .limit(pageSize + 1);
 
-    const hasMore = rows.length > pageSize;
+    if (cursor) {
+      query.where(database.raw('id'), '>=', cursor)
+    }
+
+    const rows = await query;
+          
     const recipes = rows.slice(0, pageSize);
+    const hasMore = rows.length > pageSize;
+    const nextCursor = hasMore ? rows[rows.length - 1].id : undefined;
 
     return {
       data: recipes,
-      hasMore,
+      nextCursor,
     };
 }
 

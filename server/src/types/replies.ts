@@ -16,7 +16,7 @@ export type RecipeReply =  Static<typeof RecipeReply>;
 
 export const Page = <T extends TSchema>(dataType: T) => Type.Object({
   data: Type.Array(dataType),
-  hasMore: Type.Boolean(),
+  nextCursor: Type.Optional(Type.String()),
 })
 
 export const RecipePage = Page(LightRecipe);
