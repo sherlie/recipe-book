@@ -8,35 +8,35 @@ type PutRecipeRoute = {
   Params: {
     id: string;
   };
-  Body: UpdateRecipe; 
+  Body: UpdateRecipe;
 };
 
 export const putRecipe: RouteOptions = {
-  method: 'PUT',
-  url: '/recipes/:id',
+  method: "PUT",
+  url: "/recipes/:id",
   schema: {
-      params: Type.Object({
-        id: Type.String(),
-      }),
-      body: UpdateRecipe,
-      response: {
-        200: RecipeReply,
+    params: Type.Object({
+      id: Type.String(),
+    }),
+    body: UpdateRecipe,
+    response: {
+      200: RecipeReply,
     },
   },
   handler: async (request, reply) => {
-  const { id } = request.params as PutRecipeRoute["Params"];
-  const { name, method, components } = request.body as PutRecipeRoute["Body"];
+    const { id } = request.params as PutRecipeRoute["Params"];
+    const { name, method, components } = request.body as PutRecipeRoute["Body"];
 
     const recipe = await getRecipe(id);
 
     if (!recipe) {
       reply.code(404);
-      
-      return { success: false, message: 'Recipe not found' };
+
+      return { success: false, message: "Recipe not found" };
     }
 
-    const editedRecipe = await updateRecipe(id, { name, method, components })
+    const editedRecipe = await updateRecipe(id, { name, method, components });
 
     return { success: true, data: editedRecipe };
-  }
+  },
 };

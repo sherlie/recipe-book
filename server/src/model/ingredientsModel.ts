@@ -54,11 +54,10 @@ export async function getIngredientsByComponents(
   return groupedIngredients;
 }
 
-export async function createIngredient(componentId: string, {
-  name,
-  unit,
-  amount,
-}: CreateIngredient) {
+export async function createIngredient(
+  componentId: string,
+  { name, unit, amount }: CreateIngredient,
+) {
   const createdIngredient = {
     id: uuidv4(),
     component_id: componentId,
@@ -110,8 +109,8 @@ export async function deleteIngredient(id: string) {
 }
 
 export async function updateIngredients(
-    patches: PatchIngredients[],
-    conn?: Knex,
+  patches: PatchIngredients[],
+  conn?: Knex,
 ): Promise<void> {
   if (patches.length === 0) {
     return;
@@ -120,8 +119,8 @@ export async function updateIngredients(
   const connection = conn ?? database;
   for (const patch of patches) {
     switch (patch.op) {
-      case "add":
-        const ingredients = patch.ingredients.map(ingredient => ({
+      case "add": {
+        const ingredients = patch.ingredients.map((ingredient) => ({
           id: uuidv4(),
           component_id: patch.componentId,
           name: ingredient.name,
@@ -133,7 +132,7 @@ export async function updateIngredients(
           await connection("ingredients").insert(ingredients);
         }
         break;
-
+      }
       case "update":
         for (const ingredient of patch.ingredients) {
           const { id, componentId, ...updates } = ingredient;
@@ -163,6 +162,6 @@ export async function updateIngredients(
 export async function deleteIngredients(componentsIds: string[], conn?: Knex) {
   const connection = conn ?? database;
   await connection("ingredients")
-    .whereIn('component_id', componentsIds)
+    .whereIn("component_id", componentsIds)
     .delete();
 }

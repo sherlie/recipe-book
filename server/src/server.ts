@@ -1,15 +1,16 @@
-import Fastify from 'fastify'
-import { routes } from './routes/index.ts';
-import { initDatabase } from './db.ts';
-import { populateDB } from './util/populateDB.ts';
+import Fastify from "fastify";
+import { routes } from "./routes/index.ts";
+import { initDatabase } from "./db.ts";
 
 const fastify = Fastify({
   logger: true,
-}).register(routes).register(initDatabase);
+})
+  .register(routes)
+  .register(initDatabase);
 
 try {
-  await fastify.listen({ host: '0.0.0.0', port: 3000 })
+  await fastify.listen({ host: "0.0.0.0", port: 3000 });
 } catch (err) {
-  fastify.log.error(err)
-  process.exit(1)
+  fastify.log.error(err);
+  process.exit(1);
 }

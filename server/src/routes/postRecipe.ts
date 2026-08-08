@@ -3,12 +3,12 @@ import { CreateRecipe, Recipe, UpdateRecipe } from "../types/recipes.ts";
 import { createRecipe } from "../model/recipesModel.ts";
 
 type PostRecipeRoute = {
-  Body: UpdateRecipe; 
+  Body: UpdateRecipe;
 };
 
 export const postRecipe: RouteOptions = {
-  method: 'POST',
-  url: '/recipes',
+  method: "POST",
+  url: "/recipes",
   schema: {
     body: CreateRecipe,
     response: {
@@ -19,8 +19,8 @@ export const postRecipe: RouteOptions = {
     const { name, method } = request.body as PostRecipeRoute["Body"];
 
     /* todo - handle ingredients & tags */
-    const recipe = await createRecipe({ name, method })
+    const recipe = await createRecipe({ name, method });
 
     reply.status(200).send(recipe);
-  }
+  },
 };

@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p tsconfig.json",
-    "start": "ts-node src/server.ts"
+    "start": "ts-node src/server.ts",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix",
+    "prettier": "npx prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -20,8 +23,18 @@
     "uuid": "^14.0.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^25.9.3",
+    "@typescript-eslint/eslint-plugin": "^8.66.0",
+    "@typescript-eslint/parser": "^8.66.0",
+    "eslint": "^10.8.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
+    "globals": "^17.9.0",
+    "jiti": "^2.7.0",
+    "prettier": "^3.9.6",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.66.0"
   }
 }
