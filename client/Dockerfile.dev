@@ -1,6 +1,11 @@
 FROM node:24-alpine
 
+EXPOSE 5173
+
 WORKDIR /app
 
+COPY package.json package-lock.json tsconfig*.json vite.config.ts ./
+RUN npm i
+
 # src/ is mounted as a volume at runtime for hot reload
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]

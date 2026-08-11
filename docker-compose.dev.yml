@@ -33,16 +33,21 @@ services:
       DB_PASSWORD: recipe-book-pwd
       DB_NAME: db-recipe-book
     volumes:
-      - ./server:/app
+      - ./server/src:/app/src
+      - ./server/tsconfig.json:/app/tsconfig.json
 
   client:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
     ports:
-      - "3001:3000"
+      - "4000:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     volumes:
-      - ./client:/app
+      - ./client/src:/app/src
+      - ./client/public:/app/public
+      - ./client/index.html:/app/index.html
 
 volumes:
   mysql_data:

@@ -1,10 +1,14 @@
-import React from 'react';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import RecipesPage from './RecipesPage';
+
+const queryClient = new QueryClient();
 
 function App() {
+
   return (
-    <div>
-      start!
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <RecipesPage />
+    </QueryClientProvider>
   );
 }
 

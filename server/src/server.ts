@@ -1,10 +1,12 @@
 import Fastify from "fastify";
+import cors from "@fastify/cors";
 import { routes } from "./routes/index.ts";
 import { initDatabase } from "./db.ts";
 
 const fastify = Fastify({
   logger: true,
 })
+  .register(cors, { origin: true })
   .register(routes)
   .register(initDatabase);
 
