@@ -1,6 +1,7 @@
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import HomePage from './components/HomePage/HomePage';
+import RecipePage from './components/RecipePage/RecipePage';
 
 const queryClient = new QueryClient();
 
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="recipe/:recipeId" element={<RecipePage />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

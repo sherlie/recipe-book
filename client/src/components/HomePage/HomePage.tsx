@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router";
 import { useGetRecipes } from "../../queries/useGetRecipes";
 import RecipeRow from "./RecipeRow";
 
 export const HomePage = () => {
 
-  const { data, isLoading, error} = useGetRecipes();
+  const { data, isLoading, error } = useGetRecipes();
+
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -18,7 +21,7 @@ export const HomePage = () => {
   }
 
   function handleClick(id: string) {
-    console.log(id);
+    navigate(`/recipe/${id}`);
   }
 
   return (

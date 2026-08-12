@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { BASE_API_URL } from "../constants";
-import type { FullRecipe } from "../domain/types";
+import type { FullRecipe, Reply } from "../domain/types";
 
-const fetchRecipe = async (id: string): Promise<FullRecipe> => {
+const fetchRecipe = async (id: string): Promise<Reply<FullRecipe>> => {
   const response = await fetch(`${BASE_API_URL}/recipes/${id}`);
 
   if (!response.ok) {

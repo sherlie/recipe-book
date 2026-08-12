@@ -27,3 +27,8 @@ export interface Page<T> {
     data: T;
     nextCursor?: string;
 }
+
+export interface Reply<T> {
+    data: T;
+    success: boolean;
+}
