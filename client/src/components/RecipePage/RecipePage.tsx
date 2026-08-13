@@ -20,22 +20,22 @@ export const RecipePage = () => {
     return <div>Error</div>;
   }
 
-  if (!data || !data.data) {
+  if (!data) {
     return <div>No such recipe.</div>
   }
 
   return (
     <div>
-      <h3>{data.data.name}</h3>
+      <h3>{data.name}</h3>
       <MultiplierForm
         currentMultiplier={multiplier}
         onChange={setMultiplier}
       />
       <IngredientsList
         multiplier={multiplier}
-        components={data.data.components}
+        components={data.components}
       />
-      <p>{data.data.method}</p>
+      <p>{data.method}</p>
     </div>
   );
 }

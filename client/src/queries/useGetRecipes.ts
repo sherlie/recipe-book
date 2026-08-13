@@ -13,9 +13,8 @@ const fetchRecipes = async (): Promise<Page<LightRecipe[]>> => {
 };
 
 export const useGetRecipes = () => {
-    const { data, isLoading, error } = useQuery({
+  return useQuery({
     queryKey: ['recipes'],
     queryFn: fetchRecipes,
   });
-  return  { data, isLoading, error };
 } 
