@@ -1,6 +1,8 @@
 import { useParams } from "react-router";
 import { useGetRecipe } from "../../queries/useGetRecipe";
 import IngredientsList from "./IngredientsList";
+import MultiplierForm from "./MultiplierForm";
+import { useState } from "react";
 
 export const RecipePage = () => {
 
@@ -8,8 +10,8 @@ export const RecipePage = () => {
 
   const { data, isLoading, error } = useGetRecipe(recipeId);
 
+  const [multiplier, setMultiplier] = useState(1);
 
-  console.log({ data, isLoading, error } );
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -25,7 +27,14 @@ export const RecipePage = () => {
   return (
     <div>
       <h3>{data.data.name}</h3>
-      <IngredientsList components={data.data.components} />
+      <MultiplierForm
+        currentMultiplier={multiplier}
+        onChange={setMultiplier}
+      />
+      <IngredientsList
+        multiplier={multiplier}
+        components={data.data.components}
+      />
       <p>{data.data.method}</p>
     </div>
   );

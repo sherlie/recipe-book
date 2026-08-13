@@ -1,11 +1,11 @@
 import type { Component } from "../../domain/types";
 
 interface IngredientsListProps {
+  multiplier: number;
   components: Component[];
 }
 
-function IngredientsList({ components }: IngredientsListProps) {
-
+function IngredientsList({ multiplier, components }: IngredientsListProps) {
   return (
     <div>
       {components.map(component => 
@@ -14,7 +14,7 @@ function IngredientsList({ components }: IngredientsListProps) {
           <ul>
             {component.ingredients.map(ingredient => 
               <li key={ingredient.id}>
-                {ingredient.amount} {ingredient.unit} {ingredient.name}
+                {multiplier * ingredient.amount} {ingredient.unit} {ingredient.name}
               </li>
             )}
           </ul>
