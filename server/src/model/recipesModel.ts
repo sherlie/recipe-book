@@ -52,7 +52,7 @@ export async function getRecipes(
   const nextCursor = hasMore ? rows[rows.length - 1].id : undefined;
 
   return {
-    data: recipes,
+    items: recipes,
     nextCursor,
   };
 }

@@ -7,7 +7,7 @@ export const HomePage = () => {
   const { data, isLoading, error } = useGetRecipes();
 
   const navigate = useNavigate();
-
+  console.log(data);
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -16,7 +16,7 @@ export const HomePage = () => {
     return <div>Error</div>;
   }
 
-  if (!data || !data.data) {
+  if (!data || !data.items) {
     return <div>No recipes yet.</div>
   }
 
@@ -26,7 +26,7 @@ export const HomePage = () => {
 
   return (
     <div>
-      {data.data.map(recipe =>
+      {data.items.map(recipe =>
         <RecipeRow
           key={recipe.id}
           recipe={recipe}

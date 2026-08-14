@@ -24,7 +24,7 @@ export interface LightRecipe {
 }
 
 export interface Page<T> {
-    data: T;
+    items: T;
     nextCursor?: string;
 }
 
