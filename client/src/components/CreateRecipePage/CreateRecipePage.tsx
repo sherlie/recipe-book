@@ -21,7 +21,7 @@ export function CreateRecipePage() {
     createComponent(),
   ]);
 
-  const addCategoryMutation = useAddRecipe();
+  const addRecipeMutation = useAddRecipe();
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -39,9 +39,7 @@ export function CreateRecipePage() {
       })),
     } satisfies CreateFullRecipe;
 
-
-    console.log(recipe);
-    addCategoryMutation.mutate(recipe);
+    addRecipeMutation.mutate(recipe);
   }
 
   return (

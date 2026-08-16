@@ -6,7 +6,7 @@ import { initDatabase } from "./db.ts";
 const fastify = Fastify({
   logger: true,
 })
-  .register(cors, { origin: true })
+  .register(cors, { origin: true, methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] })
   .register(routes)
   .register(initDatabase);
 

@@ -28,7 +28,7 @@ export const deleteRecipe: RouteOptions = {
       return { success: false, message: "Recipe not found" };
     }
 
-    deleteRecipeModel(id);
+    await deleteRecipeModel(id);
 
     return { success: true, data: null };
   },

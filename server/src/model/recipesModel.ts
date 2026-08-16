@@ -67,7 +67,6 @@ export async function createRecipe({ name, method, components }: CreateRecipe) {
     /* todo - handle tags */
     await trx("recipes").insert(createdRecipe);
     if (components) {
-      console.log("creating components........", components)
       await createComponents(createdRecipe.id, components, trx);
     }
   });

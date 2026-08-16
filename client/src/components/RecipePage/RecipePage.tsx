@@ -3,12 +3,15 @@ import { useGetRecipe } from "../../queries/useGetRecipe";
 import IngredientsList from "./IngredientsList";
 import MultiplierForm from "./MultiplierForm";
 import { useState } from "react";
+import { useRemoveRecipe } from "../../queries/useRemoveRecipe";
 
 export const RecipePage = () => {
 
   let { recipeId = "" } = useParams();
 
   const { data, isLoading, error } = useGetRecipe(recipeId);
+
+  const removeRecipeMutation = useRemoveRecipe();
 
   const [multiplier, setMultiplier] = useState(1);
 
@@ -24,9 +27,14 @@ export const RecipePage = () => {
     return <div>No such recipe.</div>
   }
 
+  function handleRemoveRecipe() {
+    removeRecipeMutation.mutate(recipeId);
+  }
+
   return (
     <div>
       <h3>{data.name}</h3>
+      <button onClick={handleRemoveRecipe}>Delete recipe</button>
       <MultiplierForm
         currentMultiplier={multiplier}
         onChange={setMultiplier}
