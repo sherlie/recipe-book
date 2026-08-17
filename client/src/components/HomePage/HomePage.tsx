@@ -7,7 +7,7 @@ export const HomePage = () => {
   const { data, isLoading, error } = useGetRecipes();
 
   const navigate = useNavigate();
-  console.log(data);
+
   if (isLoading) {
     return <div>Loading...</div>
   }

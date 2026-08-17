@@ -1,4 +1,5 @@
 import type { LightRecipe } from "../../domain/types";
+import { recipeRow } from "./RecipeRow.css";
 
 interface RecipeRowProps {
   recipe: LightRecipe;
@@ -8,8 +9,8 @@ interface RecipeRowProps {
 function RecipeRow({ recipe, handleClick }: RecipeRowProps) {
 
   return (
-    <div onClick={() => handleClick(recipe.id)}>
-      {recipe.name}
+    <div onClick={() => handleClick(recipe.id)} className={recipeRow}>
+      <h3>{recipe.name}</h3>
     </div>
   );
 }

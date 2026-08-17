@@ -1,4 +1,5 @@
 import type { Component } from "../../domain/types";
+import { wrapper } from "./IngredientList.css";
 
 interface IngredientsListProps {
   multiplier: number;
@@ -7,7 +8,8 @@ interface IngredientsListProps {
 
 function IngredientsList({ multiplier, components }: IngredientsListProps) {
   return (
-    <div>
+    <div className={wrapper}>
+      <h3>Ingredients</h3>
       {components.map(component => 
         <div key={component.id}>
           <h4>{component.name}</h4>

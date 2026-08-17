@@ -33,7 +33,7 @@ export const RecipePage = () => {
 
   return (
     <div>
-      <h3>{data.name}</h3>
+      <h1>{data.name}</h1>
       <button onClick={handleRemoveRecipe}>Delete recipe</button>
       <MultiplierForm
         currentMultiplier={multiplier}
@@ -43,6 +43,7 @@ export const RecipePage = () => {
         multiplier={multiplier}
         components={data.components}
       />
+      <h3>Directions</h3>
       <p>{data.method}</p>
     </div>
   );

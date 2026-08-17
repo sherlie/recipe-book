@@ -183,8 +183,6 @@ export async function deleteComponents(recipeId: string, conn?: Knex) {
       .where("recipe_id", recipeId)
   ).map((row) => row.id);
 
-  console.log(recipeId, componentsIds);
-
   await connection("components").where("recipe_id", recipeId).delete();
 
   deleteIngredients(componentsIds, connection);
