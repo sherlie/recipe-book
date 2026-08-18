@@ -14,7 +14,7 @@ import {
 } from "./CreteRecipePage.utils";
 import { useAddRecipe } from "../../queries/useAddRecipe";
 
-export function CreateRecipePage() {
+export const CreateRecipePage = () => {
   const [name, setName] = useState("");
   const [method, setMethod] = useState("");
   const [components, setComponents] = useState<CreateComponent[]>([

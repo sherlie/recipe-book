@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import HomePage from './components/HomePage/HomePage';
 import RecipePage from './components/RecipePage/RecipePage';
 import { CreateRecipePage } from './components/CreateRecipePage/CreateRecipePage';
+import Navbar from './components/Navbar/Navbar';
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="recipe/:recipeId" element={<RecipePage />} />
           <Route path="addRecipe" element={<CreateRecipePage />} />
         </Routes>
+        <Navbar />
       </BrowserRouter>
     </QueryClientProvider>
   );

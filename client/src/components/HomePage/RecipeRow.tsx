@@ -6,8 +6,7 @@ interface RecipeRowProps {
   handleClick: (id: string) => void;
 }
 
-function RecipeRow({ recipe, handleClick }: RecipeRowProps) {
-
+export const RecipeRow = ({ recipe, handleClick }: RecipeRowProps) => {
   return (
     <div onClick={() => handleClick(recipe.id)} className={recipeRow}>
       <h3>{recipe.name}</h3>

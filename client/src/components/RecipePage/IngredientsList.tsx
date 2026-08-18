@@ -6,7 +6,7 @@ interface IngredientsListProps {
   components: Component[];
 }
 
-function IngredientsList({ multiplier, components }: IngredientsListProps) {
+export const IngredientsList = ({ multiplier, components }: IngredientsListProps) => {
   return (
     <div className={wrapper}>
       <h3>Ingredients</h3>
