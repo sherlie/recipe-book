@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent } from "react";
+import { numberInput, radioInput, radioLabel } from "./MultiplierForm.css";
 
 interface MultiplierFormProps {
   currentMultiplier: number;
@@ -36,8 +37,9 @@ export const MultiplierForm = ({
     <div>
       <form>
       {MULTIPLIERS.map(multiplier => 
-        <label>
+        <label className={radioLabel}>
           <input 
+            className={radioInput}
             type="radio" 
             name="multiplier" 
             value={multiplier} 
@@ -45,20 +47,24 @@ export const MultiplierForm = ({
             onChange={handleChange} /> {multiplier}x
         </label>
       )}
-      <label>
+      <label className={radioLabel}>
         <input 
+          className={radioInput}
           type="radio" 
           name="multiplier" 
           value="custom" 
           checked={isCustom} 
-          onChange={handleIsCustom} /> custom
+          onChange={handleIsCustom} />
+          <input
+            className={numberInput}
+            name="custom-multiplier"
+            type="number"
+            step={0.1}
+            value={customValue}
+            onChange={handleCustomChange}
+            width={1}
+          /> x
       </label>
-      <input
-        type="number"
-        step={0.1}
-        value={customValue}
-        onChange={handleCustomChange}
-      />
       </form>
     </div>
   );

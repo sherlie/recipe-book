@@ -5,7 +5,7 @@ export const nav = style({
   bottom: 0,
   left: 0,
   width: "100%",
-  backgroundColor: "#9D9E73",
+  backgroundColor: "#B4BD62",
 });
 
 export const navList = style({
@@ -19,8 +19,7 @@ export const navList = style({
 
 export const navLink = style({
   textDecoration: "none",
-  fontWeight: "bold",
-  color: "white",
+  color: "#1B475D",
   display: "flex",
   alignItems: "center",
   padding: "0.7rem",
@@ -29,6 +28,6 @@ export const navLink = style({
 export const activeNavLink = style([
   navLink,
   {
-    backgroundColor: "#bccdb0",
+    backgroundColor: "#8EBD9D",
   },
 ]);
