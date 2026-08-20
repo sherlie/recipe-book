@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { vars } from '../../main.css';
 
 export const radioInput = style({
   opacity: 0,
@@ -13,7 +14,7 @@ export const numberInput = style({
 
 export const radioLabel = style({
   display: 'inline-block',
-  backgroundColor: "#F6DA8F",
+  backgroundColor: vars.color.sun,
   padding: '5px 20px',
   height: 20,
   fontFamily: 'sans-serif, Arial',
@@ -23,7 +24,7 @@ export const radioLabel = style({
 
   selectors: {
     '&:has(input[type="radio"]:checked)': {
-      backgroundColor: "#B4BD62",
+      backgroundColor: vars.color.olive,
     },
   },
 });

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import { useGetRecipes } from "../../queries/useGetRecipes";
 import RecipeRow from "./RecipeRow";
+import { pageWrapper } from "../../main.css";
 
 export const HomePage = () => {
 
@@ -25,7 +26,7 @@ export const HomePage = () => {
   }
 
   return (
-    <div>
+    <div className={pageWrapper}>
       {data.items.map(recipe =>
         <RecipeRow
           key={recipe.id}

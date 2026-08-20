@@ -13,6 +13,8 @@ import {
   updateIngredient,
 } from "./CreteRecipePage.utils";
 import { useAddRecipe } from "../../queries/useAddRecipe";
+import { pageWrapper } from "../../main.css";
+import { componentHeader, numberInput, submitButton, wrapper } from "./CreateRecipePage.css";
 
 export const CreateRecipePage = () => {
   const [name, setName] = useState("");
@@ -43,9 +45,9 @@ export const CreateRecipePage = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={pageWrapper}>
       <div>
-        <label htmlFor="recipe-name">Recipe name</label>
+        <label htmlFor="recipe-name">Recipe name </label>
         <input
           id="recipe-name"
           type="text"
@@ -73,28 +75,22 @@ export const CreateRecipePage = () => {
         <h2>Components</h2>
 
         {components.map((component, componentIndex) => (
-          <fieldset key={componentIndex}>
-            <legend>
-              Component {componentIndex + 1}: {component.name}
-            </legend>
-
+          <div key={componentIndex} className={wrapper}>
             <div>
-              <label>
-                Component name
-                <input
-                  type="text"
-                  value={component.name}
-                  onChange={(e) =>
-                    setComponents(
-                      updateComponent(components, componentIndex, {
-                        name: e.target.value,
-                      }),
-                    )
-                  }
-                  placeholder="e.g. Sauce"
-                  required
-                />
-              </label>
+              <h4 className={componentHeader}>Component {componentIndex + 1}: </h4>
+              <input
+                type="text"
+                value={component.name}
+                onChange={(e) =>
+                  setComponents(
+                    updateComponent(components, componentIndex, {
+                      name: e.target.value,
+                    }),
+                  )
+                }
+                placeholder="Component name (e.g. Sauce)"
+                required
+              />
               <button
                 type="button"
                 onClick={() =>
@@ -102,7 +98,7 @@ export const CreateRecipePage = () => {
                 }
                 disabled={components.length === 1}
               >
-                Remove component
+                X
               </button>
             </div>
 
@@ -111,6 +107,7 @@ export const CreateRecipePage = () => {
             {component.ingredients.map((ingredient, ingredientIndex) => (
               <div key={ingredientIndex}>
                 <input
+                  className={numberInput}
                   type="number"
                   min="0"
                   value={ingredient.amount}
@@ -124,11 +121,12 @@ export const CreateRecipePage = () => {
                       ),
                     )
                   }
-                  placeholder="Amount"
+                  placeholder="amount"
                   required
                 />
 
                 <input
+                  className={numberInput}
                   type="text"
                   value={ingredient.unit}
                   onChange={(e) =>
@@ -141,7 +139,7 @@ export const CreateRecipePage = () => {
                       ),
                     )
                   }
-                  placeholder="Unit"
+                  placeholder="unit"
                 />
 
                 <input
@@ -157,7 +155,7 @@ export const CreateRecipePage = () => {
                       ),
                     )
                   }
-                  placeholder="Ingredient"
+                  placeholder="ingredient"
                   required
                 />
 
@@ -187,7 +185,7 @@ export const CreateRecipePage = () => {
             >
               + Add ingredient
             </button>
-          </fieldset>
+          </div>
         ))}
 
         <button
@@ -198,7 +196,7 @@ export const CreateRecipePage = () => {
         </button>
       </section>
 
-      <button type="submit">Create recipe</button>
+      <button type="submit" className={submitButton}>Create recipe</button>
     </form>
   );
 }
