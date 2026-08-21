@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
-import { vars } from '../../main.css';
+import { style } from "@vanilla-extract/css";
+import { input, vars } from "../../main.css";
 
 export const wrapper = style({
   backgroundColor: vars.color.sun,
@@ -12,15 +12,18 @@ export const componentHeader = style({
   display: "inline",
 });
 
+export const textArea = style([
+  input,
+  {
+    width: "50rem",
+    height: "10rem",
+    maxWidth: "95%",
+  },
+]);
 
-export const numberInput = style({
-  width: 50,
-});
-
-export const submitButton = style({
-  backgroundColor: vars.color.night,
-  color: vars.color.sea,
-  padding: "10px 15px",
-  borderRadius: 4,
-  fontWeight: "bold",
-});
+export const numberInput = style([
+  input,
+  {
+    width: 50,
+  },
+]);

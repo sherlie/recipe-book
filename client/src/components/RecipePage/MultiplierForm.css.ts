@@ -1,24 +1,27 @@
-import { style } from '@vanilla-extract/css';
-import { vars } from '../../main.css';
+import { style } from "@vanilla-extract/css";
+import { input, vars } from "../../main.css";
 
 export const radioInput = style({
   opacity: 0,
-  position: 'fixed',
+  position: "fixed",
   width: 0,
 });
 
-export const numberInput = style({
-  marginLeft: 5,
-  width: 50,
-});
+export const numberInput = style([
+  input,
+  {
+    marginLeft: 5,
+    width: 50,
+  },
+]);
 
 export const radioLabel = style({
-  display: 'inline-block',
+  display: "inline-block",
   backgroundColor: vars.color.sun,
-  padding: '5px 20px',
+  padding: "5px 20px",
   height: 20,
-  fontFamily: 'sans-serif, Arial',
-  fontSize: '16px',
+  fontFamily: "sans-serif, Arial",
+  fontSize: "16px",
   borderRadius: 4,
   margin: 2,
 

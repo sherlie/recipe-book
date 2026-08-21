@@ -13,8 +13,8 @@ import {
   updateIngredient,
 } from "./CreteRecipePage.utils";
 import { useAddRecipe } from "../../queries/useAddRecipe";
-import { pageWrapper } from "../../main.css";
-import { componentHeader, numberInput, submitButton, wrapper } from "./CreateRecipePage.css";
+import { input, pageWrapper, submitButton } from "../../main.css";
+import { componentHeader, numberInput, textArea, wrapper } from "./CreateRecipePage.css";
 
 export const CreateRecipePage = () => {
   const [name, setName] = useState("");
@@ -46,9 +46,11 @@ export const CreateRecipePage = () => {
 
   return (
     <form onSubmit={handleSubmit} className={pageWrapper}>
+      <h1>Creating New Recipe</h1>
       <div>
         <label htmlFor="recipe-name">Recipe name </label>
         <input
+          className={input}
           id="recipe-name"
           type="text"
           value={name}
@@ -61,12 +63,11 @@ export const CreateRecipePage = () => {
         <label htmlFor="recipe-method">Method</label>
         <br />
         <textarea
+          className={textArea}
           id="recipe-method"
           value={method}
           onChange={(e) => setMethod(e.target.value)}
           placeholder="Describe how to prepare the recipe..."
-          rows={8}
-          cols={80}
           required
         />
       </div>
@@ -79,6 +80,7 @@ export const CreateRecipePage = () => {
             <div>
               <h4 className={componentHeader}>Component {componentIndex + 1}: </h4>
               <input
+                className={input}
                 type="text"
                 value={component.name}
                 onChange={(e) =>
@@ -143,6 +145,7 @@ export const CreateRecipePage = () => {
                 />
 
                 <input
+                  className={input}
                   type="text"
                   value={ingredient.name}
                   onChange={(e) =>

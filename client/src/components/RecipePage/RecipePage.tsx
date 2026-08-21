@@ -4,7 +4,7 @@ import IngredientsList from "./IngredientsList";
 import MultiplierForm from "./MultiplierForm";
 import { useState } from "react";
 import { useRemoveRecipe } from "../../queries/useRemoveRecipe";
-import { pageWrapper } from "../../main.css";
+import { pageWrapper, submitButton } from "../../main.css";
 
 export const RecipePage = () => {
 
@@ -35,7 +35,6 @@ export const RecipePage = () => {
   return (
     <div className={pageWrapper}>
       <h1>{data.name}</h1>
-      <button onClick={handleRemoveRecipe}>Delete recipe</button>
       <MultiplierForm
         currentMultiplier={multiplier}
         onChange={setMultiplier}
@@ -46,6 +45,7 @@ export const RecipePage = () => {
       />
       <h3>Directions</h3>
       <p>{data.method}</p>
+      <button onClick={handleRemoveRecipe} className={submitButton}>Delete recipe</button>
     </div>
   );
 }

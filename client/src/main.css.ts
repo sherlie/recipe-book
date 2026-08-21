@@ -30,10 +30,32 @@ export const pageWrapper = style({
   paddingBottom: 40,
 });
 
+export const input = style({
+  border: `1px solid ${vars.color.sea}`,
+  borderRadius: 4,
+  minHeight: 18,
+  padding: "0px 4px",
+})
+
 globalStyle('button', {
-  backgroundColor:  vars.color.olive,
+  backgroundColor: vars.color.olive,
   color: vars.color.night,
-  border: "none",
+  border: 'none',
   borderRadius: 2,
   margin: 2,
+  cursor: 'pointer',
+});
+
+
+globalStyle('button:disabled', {
+  opacity: 0.6,
+  cursor: 'not-allowed',
+});
+
+export const submitButton = style({
+  backgroundColor: vars.color.night,
+  color: vars.color.sea,
+  padding: "10px 15px",
+  borderRadius: 4,
+  fontWeight: "bold",
 });
