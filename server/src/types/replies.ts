@@ -1,5 +1,6 @@
 import { Type, type Static, type TSchema } from "typebox";
 import { LightRecipe, Recipe } from "./recipes.ts";
+import { Tag } from "./tags.ts";
 
 export const SuccessReply = <T extends TSchema>(dataType: T) =>
   Type.Object({
@@ -27,3 +28,6 @@ export type RecipePage = Static<typeof RecipePage>;
 
 export const EmptyReply = Reply(Type.Null());
 export type EmptyReply = Static<typeof EmptyReply>;
+
+export const TagsReply = Reply(Type.Array(Tag));
+export type TagsReply = Static<typeof TagsReply>;

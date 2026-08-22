@@ -14,10 +14,11 @@ export async function getTag(id: string, conn?: Knex) {
 }
 
 export async function getTags(prefix: string, conn?: Knex) {
-  const tag = await (conn ?? database)
+conn = conn ?? database;
+  const tag = await conn
     .select("id", "name")
     .from("tags")
-    .whereLike("name", `${prefix}%`);
+    .whereRaw(`\`name\` LIKE '${prefix}%'`);
 
   return tag;
 }

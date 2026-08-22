@@ -32,3 +32,8 @@ export interface Reply<T> {
     data: T;
     success: boolean;
 }
+
+export interface Tag {
+    id: string;
+    name: string;
+}

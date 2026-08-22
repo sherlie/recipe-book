@@ -23,3 +23,9 @@ export const GetRecipesQuerystring = Type.Object({
   limit: Type.Optional(Type.Integer({ minimum: 1, maximum: 100 })),
 });
 export type GetRecipesQuerystring = Static<typeof GetRecipesQuerystring>;
+
+export const GetTagsQuerystring = Type.Object({
+  name: Type.String(),
+});
+export type GetTagsQuerystring = Static<typeof GetTagsQuerystring>;
+
