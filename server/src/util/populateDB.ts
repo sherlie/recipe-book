@@ -1,4 +1,5 @@
 import { createRecipe } from "../model/recipesModel.ts";
+import { createTag } from "../model/tagModel.ts";
 
 export async function populateDB() {
   await createRecipe({
@@ -100,4 +101,10 @@ export async function populateDB() {
       },
     ],
   });
+}
+
+export async function populateDBTags() {
+  createTag({ name: "cookies" });
+  createTag({ name: "fav" });
+  createTag({ name: "muffins" });
 }

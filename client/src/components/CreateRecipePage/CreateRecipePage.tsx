@@ -15,6 +15,7 @@ import {
 import { useAddRecipe } from "../../queries/useAddRecipe";
 import { input, pageWrapper, submitButton } from "../../main.css";
 import { componentHeader, numberInput, textArea, wrapper } from "./CreateRecipePage.css";
+import TagForm from "./TagForm";
 
 export const CreateRecipePage = () => {
   const [name, setName] = useState("");
@@ -71,6 +72,8 @@ export const CreateRecipePage = () => {
           required
         />
       </div>
+
+      <TagForm />
 
       <section>
         <h2>Components</h2>

@@ -5,6 +5,7 @@ import { putRecipe } from "./putRecipe.ts";
 import { postRecipe } from "./postRecipe.ts";
 import { deleteRecipe } from "./deleteRecipe.ts";
 import { populate } from "./populate.ts";
+import { populateTags } from "./populateTags.ts";
 
 export async function routes(fastify: FastifyInstance) {
   fastify.route(getRecipes);
@@ -13,4 +14,5 @@ export async function routes(fastify: FastifyInstance) {
   fastify.route(postRecipe);
   fastify.route(deleteRecipe);
   fastify.route(populate);
+  fastify.route(populateTags);
 }
