@@ -3,10 +3,6 @@ import { BASE_API_URL } from "../constants";
 import type { Tag } from "../domain/types";
 
 const fetchTags = async (namePrefix: string): Promise<Tag[]> => {
-  if (namePrefix.length < 1) {
-    return [];
-  }
-
   const response = await fetch(`${BASE_API_URL}/tags?name=${namePrefix}`);
 
   if (!response.ok) {
@@ -16,9 +12,10 @@ const fetchTags = async (namePrefix: string): Promise<Tag[]> => {
   return (await response.json()).data;
 };
 
-export const useGetTags = (namePrefix: string) => {
+export const useGetTags = (namePrefix: string, enabled: boolean) => {
   return useQuery({
     queryKey: ['tags', namePrefix],
     queryFn: () => fetchTags(namePrefix),
+    enabled,
   });
 }

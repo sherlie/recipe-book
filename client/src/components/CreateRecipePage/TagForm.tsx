@@ -1,30 +1,24 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { useGetTags } from "../../queries/useGetTags";
+import { useDebouncer } from "../../utils/debounce";
 
 const TIMEOUT = 300;
 
 export const TagForm = () => {
-  const [query, setQuery] = useState("");
   const [tag, setTag] = useState("");
+  const [query, setQuery] = useState("");
 
- const { data } = useGetTags(query);
+  const { data } = useGetTags(query, query.length > 1);
 
-  const handleQueryChange = (tag: string) => {
-    setQuery(tag);
-  };
+  const debouncedHandleQueryChange = useDebouncer(setQuery, TIMEOUT);
 
   const handleTagChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTag(e.target.value);
+    const newTag = e.target.value;
+    setTag(newTag);
+    debouncedHandleQueryChange(newTag);
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      handleQueryChange(tag);
-    }, TIMEOUT);
-    return () => clearTimeout(timer);
-  }, [tag]);
-
-  console.log(data);
+  console.log(query, data);
 
   return (
     <div>
