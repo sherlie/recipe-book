@@ -24,6 +24,8 @@ export const CreateRecipePage = () => {
     createComponent(),
   ]);
 
+  const [tags, setTags] = useState<string[]>([]);
+
   const addRecipeMutation = useAddRecipe();
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
@@ -73,7 +75,7 @@ export const CreateRecipePage = () => {
         />
       </div>
 
-      <TagForm />
+      <TagForm tags={tags} setTags={setTags} />
 
       <section>
         <h2>Components</h2>
