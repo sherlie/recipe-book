@@ -4,6 +4,7 @@ import { useDebouncer } from "../../utils/debounce";
 import { TagList } from "./TagList";
 import SuggestedTagList from "./SuggestedTagList";
 import type { Tag } from "../../domain/types";
+import { input } from "../../main.css";
 
 const TIMEOUT = 300;
 
@@ -32,15 +33,24 @@ export const TagForm = ({ tags, setTags}: TagFormProps) => {
     setQuery("");
   }
 
+  const suggestedTags = data ? data.filter(
+    suggestedTag => !tags.some(
+      tag => tag.id === suggestedTag.id
+    )
+  )
+  : undefined;
+
   return (
     <div>
+      <h2>Tags</h2>
       <input
+        className={input}
         type="text"
         value={tag}
         onChange={handleTagChange}
-        placeholder="Search..."
+        placeholder="Search tags..."
       />
-      <SuggestedTagList suggestedTags={data} addTag={handleAddTag} />
+      <SuggestedTagList suggestedTags={suggestedTags} addTag={handleAddTag} />
       <TagList tags={tags} setTags={setTags} />
     </div>
   );

@@ -43,6 +43,7 @@ export const CreateRecipePage = () => {
           name: ingredient.name.trim(),
         })),
       })),
+      tags: tags,
     } satisfies CreateFullRecipe;
 
     addRecipeMutation.mutate(recipe);

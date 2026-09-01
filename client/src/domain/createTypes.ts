@@ -1,3 +1,5 @@
+import type { Tag } from "./types";
+
 export interface CreateIngredient {
     amount: number;
     unit?: string;
@@ -13,4 +15,5 @@ export interface CreateFullRecipe {
     name: string;
     method: string;
     components: CreateComponent[];
+    tags?: Tag[];
 }
