@@ -1,14 +1,15 @@
+import type { Tag } from "../../domain/types";
 import { tagButton, tagContainer, tagList, tagListItem } from "./TagList.css";
 
 interface TagListProps {
-  tags: string[];
-  setTags: (tags: string[]) => void;
+  tags: Tag[];
+  setTags: (tags: Tag[]) => void;
 }
 
 export const TagList = ({ tags, setTags }: TagListProps) => {
 
-  function handleRemoveTag(tagToRemove: string) {
-    setTags(tags.filter(currentTag => currentTag !== tagToRemove))
+  function handleRemoveTag(tagToRemove: Tag) {
+    setTags(tags.filter(currentTag => currentTag.id !== tagToRemove.id))
   }
 
   return (
@@ -17,7 +18,7 @@ export const TagList = ({ tags, setTags }: TagListProps) => {
         {tags.map((tag, idx) =>
           <li key={idx} className={tagListItem}>
             <span className={tagContainer}>
-              {tag}
+              {tag.name}
               <button
                 className={tagButton}
                 onClick={() => handleRemoveTag(tag)}

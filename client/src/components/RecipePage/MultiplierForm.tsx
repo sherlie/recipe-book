@@ -37,7 +37,7 @@ export const MultiplierForm = ({
     <div>
       <form>
       {MULTIPLIERS.map(multiplier => 
-        <label className={radioLabel}>
+        <label className={radioLabel} key={multiplier}>
           <input 
             className={radioInput}
             type="radio" 

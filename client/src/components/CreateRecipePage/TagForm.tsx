@@ -2,12 +2,14 @@ import { useState, type ChangeEvent } from "react";
 import { useGetTags } from "../../queries/useGetTags";
 import { useDebouncer } from "../../utils/debounce";
 import { TagList } from "./TagList";
+import SuggestedTagList from "./SuggestedTagList";
+import type { Tag } from "../../domain/types";
 
 const TIMEOUT = 300;
 
 interface TagFormProps {
-  tags: string[];
-  setTags: (tags: string[]) => void;
+  tags: Tag[];
+  setTags: (tags: Tag[]) => void;
 }
 
 export const TagForm = ({ tags, setTags}: TagFormProps) => {
@@ -24,7 +26,11 @@ export const TagForm = ({ tags, setTags}: TagFormProps) => {
     debouncedHandleQueryChange(newTag);
   };
 
-  console.log(query, data);
+  const handleAddTag = (tag: Tag) => {
+    setTags([...tags, tag]);
+    setTag("");
+    setQuery("");
+  }
 
   return (
     <div>
@@ -34,6 +40,7 @@ export const TagForm = ({ tags, setTags}: TagFormProps) => {
         onChange={handleTagChange}
         placeholder="Search..."
       />
+      <SuggestedTagList suggestedTags={data} addTag={handleAddTag} />
       <TagList tags={tags} setTags={setTags} />
     </div>
   );

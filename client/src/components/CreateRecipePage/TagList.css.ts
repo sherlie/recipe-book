@@ -26,3 +26,10 @@ export const tagButton = style({
   margin: "0px 4px",
   padding: "1px 0px",
 })
+
+export const suggestedTagContainer = style({
+  padding: 5,
+  borderRadius: 4,
+  backgroundColor: vars.color.sea,
+  opacity: 0.6,
+});

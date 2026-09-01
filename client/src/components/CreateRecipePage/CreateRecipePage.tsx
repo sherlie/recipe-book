@@ -16,6 +16,7 @@ import { useAddRecipe } from "../../queries/useAddRecipe";
 import { input, pageWrapper, submitButton } from "../../main.css";
 import { componentHeader, numberInput, textArea, wrapper } from "./CreateRecipePage.css";
 import TagForm from "./TagForm";
+import type { Tag } from "../../domain/types";
 
 export const CreateRecipePage = () => {
   const [name, setName] = useState("");
@@ -24,7 +25,7 @@ export const CreateRecipePage = () => {
     createComponent(),
   ]);
 
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   const addRecipeMutation = useAddRecipe();
 
