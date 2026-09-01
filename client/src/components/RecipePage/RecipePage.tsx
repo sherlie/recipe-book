@@ -5,10 +5,11 @@ import MultiplierForm from "./MultiplierForm";
 import { useState } from "react";
 import { useRemoveRecipe } from "../../queries/useRemoveRecipe";
 import { pageWrapper, submitButton } from "../../main.css";
+import TagList from "./TagList";
 
 export const RecipePage = () => {
 
-  let { recipeId = "" } = useParams();
+  const { recipeId = "" } = useParams();
 
   const { data, isLoading, error } = useGetRecipe(recipeId);
 
@@ -35,6 +36,7 @@ export const RecipePage = () => {
   return (
     <div className={pageWrapper}>
       <h1>{data.name}</h1>
+      <TagList tags={data.tags}/>
       <MultiplierForm
         currentMultiplier={multiplier}
         onChange={setMultiplier}

@@ -1,5 +1,5 @@
 import { createRecipe } from "../model/recipesModel.ts";
-import { createTag } from "../model/tagModel.ts";
+import { createTag } from "../model/tagsModel.ts";
 
 export async function populateDB() {
   await createRecipe({

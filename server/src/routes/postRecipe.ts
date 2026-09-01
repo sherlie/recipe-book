@@ -1,5 +1,5 @@
 import type { RouteOptions } from "fastify";
-import { CreateRecipe, Recipe, UpdateRecipe } from "../types/recipes.ts";
+import { CreateRecipe, Recipe } from "../types/recipes.ts";
 import { createRecipe } from "../model/recipesModel.ts";
 
 type PostRecipeRoute = {
@@ -16,10 +16,10 @@ export const postRecipe: RouteOptions = {
     },
   },
   handler: async (request, reply) => {
-    const { name, method, components } = request.body as PostRecipeRoute["Body"];
+    const { name, method, tags, components } = request.body as PostRecipeRoute["Body"];
 
     /* todo - handle ingredients & tags */
-    const recipe = await createRecipe({ name, method, components });
+    const recipe = await createRecipe({ name, method, tags, components });
 
     reply.status(200).send(recipe);
   },

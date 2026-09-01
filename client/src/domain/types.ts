@@ -16,6 +16,7 @@ export interface FullRecipe {
     name: string;
     method: string;
     components: Component[];
+    tags?: Tag[];
 }
 
 export interface LightRecipe {

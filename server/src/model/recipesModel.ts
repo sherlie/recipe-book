@@ -13,6 +13,7 @@ import {
   updateComponents,
 } from "./componentsModel.ts";
 import type { Knex } from "knex";
+import { createRecipeTags, getRecipeTags } from "./recipeTagsModel.ts";
 
 export async function getRecipe(id: string, conn?: Knex): Promise<FullRecipe> {
   const recipe = await (conn ?? database)
@@ -22,12 +23,14 @@ export async function getRecipe(id: string, conn?: Knex): Promise<FullRecipe> {
     .first();
 
   const components = await getComponents(recipe.id);
+  const tags = await getRecipeTags(recipe.id);
 
   return {
     id: recipe.id,
     name: recipe.name,
     method: recipe.method,
     components: components,
+    tags: tags,
   };
 }
 
@@ -57,7 +60,7 @@ export async function getRecipes(
   };
 }
 
-export async function createRecipe({ name, method, components }: CreateRecipe) {
+export async function createRecipe({ name, method, tags, components }: CreateRecipe) {
   const createdRecipe = {
     id: uuidv4(),
     name,
@@ -68,6 +71,9 @@ export async function createRecipe({ name, method, components }: CreateRecipe) {
     await trx("recipes").insert(createdRecipe);
     if (components) {
       await createComponents(createdRecipe.id, components, trx);
+    }
+    if (tags) {
+      await createRecipeTags(createdRecipe.id, tags, trx);
     }
   });
 

@@ -1,6 +1,6 @@
 import type { RouteOptions } from "fastify";
 import { EmptyReply } from "../types/replies.ts";
-import { populateDB, populateDBTags } from "../util/populateDB.ts";
+import { populateDBTags } from "../util/populateDB.ts";
 
 export const populateTags: RouteOptions = {
   method: "POST",

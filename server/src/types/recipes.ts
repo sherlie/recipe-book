@@ -4,6 +4,7 @@ import {
   FullComponent,
   PatchComponents,
 } from "./components.ts";
+import { Tag } from "./tags.ts";
 
 export const Recipe = Type.Object({
   id: Type.String(),
@@ -29,7 +30,7 @@ export const CreateRecipe = Type.Partial(
     name: Type.String(),
     method: Type.String(),
     components: Type.Array(CreateComponent),
-    tags: Type.Array(Type.String()),
+    tags: Type.Array(Tag),
   }),
 );
 export type CreateRecipe = Static<typeof CreateRecipe>;

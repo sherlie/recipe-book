@@ -1,4 +1,4 @@
-import { getTags } from "../model/tagModel.ts";
+import { getTags } from "../model/tagsModel.ts";
 import { GetTagsQuerystring, type Route } from "../types/queries.ts";
 import { TagsReply } from "../types/replies.ts";
 
