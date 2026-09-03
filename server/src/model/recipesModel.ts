@@ -13,7 +13,7 @@ import {
   updateComponents,
 } from "./componentsModel.ts";
 import type { Knex } from "knex";
-import { createRecipeTags, deleteRecipeTags, getRecipeTags } from "./recipeTagsModel.ts";
+import { createRecipeTags, deleteRecipeTags, getRecipeTags, updateRecipeTags } from "./recipeTagsModel.ts";
 
 export async function getRecipe(id: string, conn?: Knex): Promise<FullRecipe> {
   const recipe = await (conn ?? database)
@@ -82,7 +82,7 @@ export async function createRecipe({ name, method, tags, components }: CreateRec
 
 export async function updateRecipe(
   id: string,
-  { name, method, components }: UpdateRecipe,
+  { name, method, components, tags }: UpdateRecipe,
 ) {
   const updatedRecipe = await database.transaction(async (trx) => {
     await trx("recipes").where({ id }).update({
@@ -91,6 +91,10 @@ export async function updateRecipe(
     });
     if (components) {
       await updateComponents(components, trx);
+    }
+
+    if (tags) {
+      await updateRecipeTags(tags, trx);
     }
 
     return getRecipe(id, trx);
