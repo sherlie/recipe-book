@@ -13,7 +13,7 @@ import {
   updateComponents,
 } from "./componentsModel.ts";
 import type { Knex } from "knex";
-import { createRecipeTags, getRecipeTags } from "./recipeTagsModel.ts";
+import { createRecipeTags, deleteRecipeTags, getRecipeTags } from "./recipeTagsModel.ts";
 
 export async function getRecipe(id: string, conn?: Knex): Promise<FullRecipe> {
   const recipe = await (conn ?? database)
@@ -103,5 +103,7 @@ export async function deleteRecipe(id: string) {
     await trx("recipes").where({ id }).delete();
 
     await deleteComponents(id, trx);
+    
+    await deleteRecipeTags(id, trx);
   });
 }

@@ -160,8 +160,11 @@ export async function updateComponents(
 
       case "remove":
         if (patch.componentsIds.length > 0) {
-          await connection("ingredients")
+          await connection("components")
             .whereIn("id", patch.componentsIds)
+            .delete();
+          await connection("ingredients")
+            .whereIn("component_id", patch.componentsIds)
             .delete();
         }
         break;

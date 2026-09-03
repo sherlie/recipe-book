@@ -30,3 +30,16 @@ export async function createRecipeTags(
 
   return createdRecipeTags;
 }
+
+export async function deleteRecipeTag(recipeId: string, tagId: string, conn?: Knex) {
+  await (conn ?? database)("recipe_tags")
+    .where("recipe_id", recipeId)
+    .where("tag_id", tagId)
+    .delete();
+}
+
+export async function deleteRecipeTags(recipeId: string, conn?: Knex) {
+  await (conn ?? database)("recipe_tags")
+    .where("recipe_id", recipeId)
+    .delete();
+}
