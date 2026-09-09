@@ -94,7 +94,7 @@ export async function updateRecipe(
     }
 
     if (tags) {
-      await updateRecipeTags(tags, trx);
+      await updateRecipeTags(tags, id, trx);
     }
 
     return getRecipe(id, trx);

@@ -12,9 +12,10 @@ const fetchRecipe = async (id: string): Promise<FullRecipe> => {
   return (await response.json()).data;
 };
 
-export const useGetRecipe = (id: string) => {
+export const useGetRecipe = (id: string, enabled: boolean) => {
   return useQuery({
     queryKey: ['recipes', id],
     queryFn: () => fetchRecipe(id),
+    enabled,
   });
 } 

@@ -146,15 +146,17 @@ export async function updateComponents(
           const { id, recipeId, name } = component;
 
           await updateIngredients(component.patchIngredients, connection);
-
-          await connection("components")
-            .where("id", id)
-            .update({
-              ...(recipeId !== undefined && {
-                component_id: recipeId,
-              }),
-              name,
-            });
+          
+          if (name) {
+            await connection("components")
+              .where("id", id)
+              .update({
+                ...(recipeId !== undefined && {
+                  component_id: recipeId,
+                }),
+                name,
+              });
+          }
         }
         break;
 

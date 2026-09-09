@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import type {
   CreateComponent,
   CreateFullRecipe,
@@ -7,6 +7,8 @@ import {
   addComponent,
   addIngredient,
   createComponent,
+  getComponentsDiff,
+  getTagsDiff,
   removeComponent,
   removeIngredient,
   updateComponent,
@@ -17,21 +19,36 @@ import { input, pageWrapper, submitButton } from "../../main.css";
 import { componentHeader, numberInput, textArea, wrapper } from "./CreateRecipePage.css";
 import TagForm from "./TagForm";
 import type { Tag } from "../../domain/types";
+import { useParams } from "react-router";
+import { useGetRecipe } from "../../queries/useGetRecipe";
+import type { UpdateRecipe } from "../../domain/updateTypes";
+import { useUpdateRecipe } from "../../queries/useUpdateRecipe";
 
 export const CreateRecipePage = () => {
+  const { recipeId = "" } = useParams();
+
+  const { data, isLoading, error } = useGetRecipe(recipeId, !!recipeId);
+
   const [name, setName] = useState("");
   const [method, setMethod] = useState("");
   const [components, setComponents] = useState<CreateComponent[]>([
     createComponent(),
   ]);
-
   const [tags, setTags] = useState<Tag[]>([]);
 
+  useEffect(() => {
+    if (data) {
+      setName(data.name);
+      setMethod(data.method);
+      setComponents(data.components);
+      setTags(data.tags ?? []);
+    }
+  }, [data])
+
   const addRecipeMutation = useAddRecipe();
+  const updateRecipeMutation = useUpdateRecipe();
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
-
+  function handleCreateRecipe() {
     const recipe = {
       name: name.trim(),
       method: method.trim(),
@@ -47,6 +64,45 @@ export const CreateRecipePage = () => {
     } satisfies CreateFullRecipe;
 
     addRecipeMutation.mutate(recipe);
+  }
+
+  function handleUpdateRecipe() {
+
+    const tagsDiff = getTagsDiff(data?.tags, tags);
+    const componentsDiff = getComponentsDiff(
+      recipeId,
+      data?.components,
+      components,
+    );
+
+    const updatedRecipe = {
+      id: recipeId,
+      name,
+      method,
+      ...(tagsDiff.length > 0 && { tags: tagsDiff }),
+      ...(componentsDiff.length > 0 && { components: componentsDiff }),
+    } satisfies UpdateRecipe;
+
+    console.log(updatedRecipe);
+
+    updateRecipeMutation.mutate(updatedRecipe);
+  }
+
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (recipeId) {
+      handleUpdateRecipe();
+    } else {
+      handleCreateRecipe();
+    }
+  }
+
+  if (recipeId && isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (recipeId && error) {
+    return <div>{error.message}</div>
   }
 
   return (
@@ -137,7 +193,7 @@ export const CreateRecipePage = () => {
                 <input
                   className={numberInput}
                   type="text"
-                  value={ingredient.unit}
+                  value={ingredient.unit ?? ""}
                   onChange={(e) =>
                     setComponents(
                       updateIngredient(
@@ -206,7 +262,9 @@ export const CreateRecipePage = () => {
         </button>
       </section>
 
-      <button type="submit" className={submitButton}>Create recipe</button>
+      <button type="submit" className={submitButton}>
+        {recipeId ? "Save": "Create recipe"}
+      </button>
     </form>
   );
 }

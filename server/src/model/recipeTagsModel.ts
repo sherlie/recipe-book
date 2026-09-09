@@ -34,6 +34,7 @@ export async function createRecipeTags(
 
 export async function updateRecipeTags(
   patches: PatchTags[],
+  recipeId: string,
   conn?: Knex,
 ): Promise<void> {
   if (patches.length === 0) {
@@ -45,7 +46,7 @@ export async function updateRecipeTags(
     switch (patch.op) {
       case "add": {
         const recipeTags = patch.tags.map((tag) => ({
-          recipe_id: patch.recipeId,
+          recipe_id: recipeId,
           tag_id: tag.id,
         }));
 
@@ -58,7 +59,7 @@ export async function updateRecipeTags(
       case "remove":
         if (patch.tagIds.length > 0) {
           await connection("recipe_tags")
-            .where("recipe_id", patch.recipeId)
+            .where("recipe_id", recipeId)
             .whereIn("tag_id", patch.tagIds)
             .delete();
         }

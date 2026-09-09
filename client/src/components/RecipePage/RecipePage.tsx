@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useGetRecipe } from "../../queries/useGetRecipe";
 import IngredientsList from "./IngredientsList";
 import MultiplierForm from "./MultiplierForm";
@@ -11,11 +11,13 @@ export const RecipePage = () => {
 
   const { recipeId = "" } = useParams();
 
-  const { data, isLoading, error } = useGetRecipe(recipeId);
+  const { data, isLoading, error } = useGetRecipe(recipeId, true);
 
   const removeRecipeMutation = useRemoveRecipe();
 
   const [multiplier, setMultiplier] = useState(1);
+
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -33,6 +35,10 @@ export const RecipePage = () => {
     removeRecipeMutation.mutate(recipeId);
   }
 
+  function handleEditRecipe() {
+    navigate(`/recipe/edit/${recipeId}`)
+  }
+
   return (
     <div className={pageWrapper}>
       <h1>{data.name}</h1>
@@ -47,6 +53,7 @@ export const RecipePage = () => {
       />
       <h3>Directions</h3>
       <p>{data.method}</p>
+      <button onClick={handleEditRecipe} className={submitButton}>Edit recipe</button>
       <button onClick={handleRemoveRecipe} className={submitButton}>Delete recipe</button>
     </div>
   );
