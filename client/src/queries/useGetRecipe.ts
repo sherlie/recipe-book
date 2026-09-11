@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BASE_API_URL } from "../constants";
+import { BASE_API_URL } from "../routeUtils";
 import type { FullRecipe } from "../domain/types";
 
 const fetchRecipe = async (id: string): Promise<FullRecipe> => {

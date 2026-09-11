@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRemoveRecipe } from "../../queries/useRemoveRecipe";
 import { pageWrapper, submitButton } from "../../main.css";
 import TagList from "./TagList";
+import { AppRoute, routeBuilder } from "../../routeUtils";
 
 export const RecipePage = () => {
 
@@ -36,7 +37,7 @@ export const RecipePage = () => {
   }
 
   function handleEditRecipe() {
-    navigate(`/recipe/edit/${recipeId}`)
+    navigate(routeBuilder(AppRoute.EditRecipe, recipeId));
   }
 
   return (

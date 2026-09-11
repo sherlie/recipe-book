@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BASE_API_URL } from "../constants";
+import { BASE_API_URL } from "../routeUtils";
 
 export const useRemoveRecipe = () => {
     const queryClient = useQueryClient();

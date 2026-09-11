@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BASE_API_URL } from "../constants";
+import { BASE_API_URL } from "../routeUtils";
 import type { UpdateRecipe } from "../domain/updateTypes";
 
 export const useUpdateRecipe = () => {

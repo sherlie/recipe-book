@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BASE_API_URL } from "../constants";
+import { BASE_API_URL } from "../routeUtils";
 import type { LightRecipe, Page } from "../domain/types";
 
 const fetchRecipes = async (): Promise<Page<LightRecipe[]>> => {

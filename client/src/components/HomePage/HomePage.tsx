@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { useGetRecipes } from "../../queries/useGetRecipes";
 import RecipeRow from "./RecipeRow";
 import { pageWrapper } from "../../main.css";
+import { AppRoute, routeBuilder } from "../../routeUtils";
 
 export const HomePage = () => {
 
@@ -22,7 +23,7 @@ export const HomePage = () => {
   }
 
   function handleClick(id: string) {
-    navigate(`/recipe/${id}`);
+    navigate(routeBuilder(AppRoute.Recipe, id));
   }
 
   return (

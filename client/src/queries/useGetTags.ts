@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BASE_API_URL } from "../constants";
+import { BASE_API_URL } from "../routeUtils";
 import type { Tag } from "../domain/types";
 
 const fetchTags = async (namePrefix: string): Promise<Tag[]> => {
