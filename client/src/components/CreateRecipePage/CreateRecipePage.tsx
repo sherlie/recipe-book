@@ -69,22 +69,17 @@ export const CreateRecipePage = () => {
   function handleUpdateRecipe() {
 
     const tagsDiff = getTagsDiff(data?.tags, tags);
-    const componentsDiff = getComponentsDiff(
-      recipeId,
-      data?.components,
-      components,
-    );
+    const componentsDiff = getComponentsDiff(recipeId, data?.components, components);
 
     const updatedRecipe = {
       id: recipeId,
-      name,
-      method,
+      ...(name !== data?.name && { name: name }),
+      ...(method !== data?.method && { method: method }),
       ...(tagsDiff.length > 0 && { tags: tagsDiff }),
       ...(componentsDiff.length > 0 && { components: componentsDiff }),
     } satisfies UpdateRecipe;
 
     console.log(updatedRecipe);
-
     updateRecipeMutation.mutate(updatedRecipe);
   }
 

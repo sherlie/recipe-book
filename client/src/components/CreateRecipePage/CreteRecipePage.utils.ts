@@ -1,4 +1,3 @@
-import type { Update } from "vite";
 import type {
   CreateComponent,
   CreateIngredient,

@@ -85,10 +85,12 @@ export async function updateRecipe(
   { name, method, components, tags }: UpdateRecipe,
 ) {
   const updatedRecipe = await database.transaction(async (trx) => {
-    await trx("recipes").where({ id }).update({
-      name,
-      method,
-    });
+    if (name || method) {
+      await trx("recipes").where({ id }).update({
+        ...(name && { name: name }),
+        ...(method && { method: method }),
+      });
+    }
     if (components) {
       await updateComponents(components, trx);
     }
