@@ -60,6 +60,35 @@ export async function getRecipes(
   };
 }
 
+export async function getRecipesByTagId(
+  tagId: string,
+  pageSize: number,
+  cursor?: string,
+): Promise<RecipePage> {
+  const query = database
+    .select("id", "name")
+    .from("recipes")
+    .leftJoin("recipe_tags", "id", "=", "recipe_id")
+    .where("tag_id", "=", tagId)
+    .orderBy("id")
+    .limit(pageSize + 1);
+
+  if (cursor) {
+    query.where(database.raw("id"), ">=", cursor);
+  }
+
+  const rows = await query;
+
+  const recipes = rows.slice(0, pageSize);
+  const hasMore = rows.length > pageSize;
+  const nextCursor = hasMore ? rows[rows.length - 1].id : undefined;
+
+  return {
+    items: recipes,
+    nextCursor,
+  };
+}
+
 export async function createRecipe({ name, method, tags, components }: CreateRecipe) {
   const createdRecipe = {
     id: uuidv4(),

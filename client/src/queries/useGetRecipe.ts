@@ -14,7 +14,7 @@ const fetchRecipe = async (id: string): Promise<FullRecipe> => {
 
 export const useGetRecipe = (id: string, enabled: boolean) => {
   return useQuery({
-    queryKey: ['recipes', id],
+    queryKey: ['recipes', 'item', id],
     queryFn: () => fetchRecipe(id),
     enabled,
   });

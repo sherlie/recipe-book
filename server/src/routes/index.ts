@@ -7,10 +7,12 @@ import { deleteRecipe } from "./deleteRecipe.ts";
 import { populate } from "./populate.ts";
 import { populateTags } from "./populateTags.ts";
 import { findTags } from "./getTags.ts";
+import { getRecipesByTagId } from "./getRecipesByTagId.ts";
 
 export async function routes(fastify: FastifyInstance) {
-  fastify.route(getRecipes);
+  fastify.route(getRecipesByTagId);
   fastify.route(getRecipe);
+  fastify.route(getRecipes);
   fastify.route(putRecipe);
   fastify.route(postRecipe);
   fastify.route(deleteRecipe);

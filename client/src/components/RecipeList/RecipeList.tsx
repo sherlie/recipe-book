@@ -1,12 +1,14 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useGetRecipes } from "../../queries/useGetRecipes";
 import RecipeRow from "./RecipeRow";
 import { pageWrapper } from "../../main.css";
 import { AppRoute, routeBuilder } from "../../routeUtils";
 
-export const HomePage = () => {
+export const RecipeList = () => {
+  
+  const { id: tagId = "" } = useParams();
 
-  const { data, isLoading, error } = useGetRecipes();
+  const { data, isLoading, error } = useGetRecipes(tagId);
 
   const navigate = useNavigate();
 
@@ -39,4 +41,4 @@ export const HomePage = () => {
   );
 }
 
-export default HomePage;
+export default RecipeList;
