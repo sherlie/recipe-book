@@ -10,7 +10,7 @@ import { AppRoute, routeBuilder } from "../../routeUtils";
 
 export const RecipePage = () => {
 
-  const { recipeId = "" } = useParams();
+  const { id: recipeId = "" } = useParams();
 
   const { data, isLoading, error } = useGetRecipe(recipeId, true);
 

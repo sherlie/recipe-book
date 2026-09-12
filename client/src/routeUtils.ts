@@ -2,11 +2,11 @@ export const BASE_API_URL = 'http://localhost:3000';
 
 export const AppRoute = {
     Default: "/",
-    Recipe: "recipe/:recipeId",
+    Recipe: "recipe/:id",
     CreateRecipe: "recipe/new",
-    EditRecipe: "/recipe/edit/:recipeId",
+    EditRecipe: "/recipe/edit/:id",
 } as const;
 
-export function routeBuilder(route: string, recipeId: string) {
-    return route.replace(":recipeId", recipeId);
+export function routeBuilder(route: string, id: string) {
+    return route.replace(":id", id);
 }

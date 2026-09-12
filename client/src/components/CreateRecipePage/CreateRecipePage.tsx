@@ -25,7 +25,7 @@ import type { UpdateRecipe } from "../../domain/updateTypes";
 import { useUpdateRecipe } from "../../queries/useUpdateRecipe";
 
 export const CreateRecipePage = () => {
-  const { recipeId = "" } = useParams();
+  const { id: recipeId = "" } = useParams();
 
   const { data, isLoading, error } = useGetRecipe(recipeId, !!recipeId);
 
@@ -169,6 +169,7 @@ export const CreateRecipePage = () => {
                 <input
                   className={numberInput}
                   type="number"
+                  step="0.01"
                   min="0"
                   value={ingredient.amount}
                   onChange={(e) =>
